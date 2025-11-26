@@ -10,12 +10,14 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreLabel;
     public TMP_Text timeLabel;
     public TMP_Text livesLabel; 
-    public TMP_Text enemylabel; 
+    public TMP_Text enemyLabel; 
 
     public Canvas pauseMenuCanvas;
-    public Canvas GameCanvas; 
+    public Canvas GameCanvas;
+    public Canvas levelCompletedCanvas;
+
     private int livesNumber=3;
-    private float time=0;
+    float timer = 0;
     public int enemyNumber = 0;
     public GameState currentGameState = GameState.GAME;
     public static GameManager instance;
@@ -29,14 +31,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
-        timeLabel.text = string.Format("{0:00}:{1:00}", time / 60, time);
-        livesLabel.text = livesNumber.ToString();
-        enemylabel.text = enemyNumber.ToString();
-
+        if (currentGameState == GameState.GAME)
+        {
+            timer += Time.deltaTime;
+            int minute = (int)(timer / 60) % 60;
+            timeLabel.text = string.Format("{0:00}:{1:00}", minute, timer % 60);
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-           
             if (currentGameState == GameState.GAME)
             {
                 PauseMenu();
@@ -46,6 +48,24 @@ public class GameManager : MonoBehaviour
             {
                 InGame();
             }
+        }
+    }
+
+    private void Awake()
+    {
+
+
+        InGame();
+        scoreLabel.text = score.ToString();
+        enemyLabel.text = enemyNumber.ToString();
+        livesLabel.text = livesNumber.ToString();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogError("Duplicated Game Manager", gameObject);
         }
     }
 
@@ -63,14 +83,12 @@ public class GameManager : MonoBehaviour
     {
         InGame();
     }
+
+
+
     public void PauseMenu()
     {
         SetGameState(GameState.PAUSE_MENU);
-    }
-
-    public void AddLives(int lives)
-    {
-        this.livesNumber += lives;
     }
 
     public void InGame()
@@ -83,6 +101,8 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.LEVEL_COMPLETED);
     }
 
+
+
     public void GameOver()
     {
         SetGameState(GameState.PAUSE_MENU);
@@ -90,34 +110,19 @@ public class GameManager : MonoBehaviour
 
     void SetGameState(GameState newGameState)
     {
-        pauseMenuCanvas.enabled = !(currentGameState == GameState.PAUSE_MENU);
         currentGameState = newGameState;
+        if (currentGameState == GameState.GAME)
+        {
 
-        //if(currentGameState == GameState.GAME)
-        //{
-        //    pauseMenuCanvas.enabled = true;
-        //}
-        //else
-        //{
-        //    pauseMenuCanvas.enabled = false;
-        //}
+            GameCanvas.enabled = true;
+        }
+        pauseMenuCanvas.enabled = (currentGameState == GameState.PAUSE_MENU);
+        levelCompletedCanvas.enabled = (currentGameState == GameState.LEVEL_COMPLETED);
     }
 
-    private void Awake()
-    {
 
-        
-        InGame();
-        scoreLabel.text = score.ToString();
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Debug.LogError("Duplicated Game Manager", gameObject);
-        }
-    }
+
+
 
     public void AddPoints(int points)
     {
@@ -127,6 +132,11 @@ public class GameManager : MonoBehaviour
     public void AddenemiesKill(int enemy)
     {
         this.enemyNumber += enemy;
-        
+        enemyLabel.text = enemyNumber.ToString();
+    }
+    public void AddLives(int lives)
+    {
+        this.livesNumber += lives;
+        livesLabel.text = livesNumber.ToString();
     }
 }

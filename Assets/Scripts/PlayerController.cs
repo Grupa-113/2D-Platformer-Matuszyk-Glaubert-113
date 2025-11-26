@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.CompareTag("LevelExit"))
         {
+            GameManager.instance.LevelCompleted();
             Debug.Log("Game over");
         }
 
@@ -119,10 +120,10 @@ public class PlayerController : MonoBehaviour
         {
             if(this.transform.position.y > col.gameObject.transform.position.y)
             {
-                //GameManager.instance.AddenemiesKill(1);
+
                 Debug.Log("Killed an enemy");
             }
-            else {
+            else if(col){
                 this.transform.position = startPosition;
                 GameManager.instance.AddLives(-1);
                 Debug.Log("odjeto serduszko");

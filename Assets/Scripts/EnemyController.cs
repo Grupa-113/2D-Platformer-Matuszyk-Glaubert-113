@@ -9,8 +9,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rigidBody;
     private float startPositionX;
-    
-
+    private bool killed = false;
     [SerializeField] private float moveRange = 1.0f;
 
 
@@ -31,6 +30,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (killed) {return;}
+
         if (isMovingRight)
         {
             if (this.transform.position.x < startPositionX + moveRange)
@@ -88,9 +89,11 @@ public class EnemyController : MonoBehaviour
         {
             if (this.transform.position.y < col.gameObject.transform.position.y)
             {
-                GameManager.instance.AddenemiesKill(1);
+                killed = true;
+                GetComponent<Collider2D>().enabled = false;
                 animator.SetBool("isDead", true);
                 StartCoroutine(KillOnAnimationEnd());
+                GameManager.instance.AddenemiesKill(1);
             }
         }
     }
