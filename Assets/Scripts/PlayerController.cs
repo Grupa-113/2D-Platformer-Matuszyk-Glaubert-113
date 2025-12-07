@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,8 +10,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 3.0f;
     //[Space(10)];
     private Rigidbody2D rigidBody;
+    
+    private Collider2D coll;
+ 
+
+
     [SerializeField] private LayerMask groundLayer;
-    private const float rayLength = 0.25f;
+    private const float rayLength = 0.15f;
     private Animator animator;
     private bool isRunning = false;
     private bool isFacingRight=true;
@@ -23,16 +29,16 @@ public class PlayerController : MonoBehaviour
         startPosition = transform.position;
         rigidBody =GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        coll = GetComponent<Collider2D>();
     }
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.currentGameState == GameState.GAME)
+        if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead"))
         {
 
             horizontalInput = 0;
@@ -71,7 +77,6 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isGrounded", IsGrounded());
             animator.SetBool("isRunning", isRunning);
 
-            Debug.DrawRay(transform.position, rayLength * Vector3.down, Color.white, 0.1f, false);
         }
     }
 
@@ -83,10 +88,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
     bool IsGrounded()
     {
-        return Physics2D.Raycast(this.transform.position, Vector2.down, rayLength, groundLayer.value);
+        Bounds bounds = coll.bounds;
+
+        float yPos = bounds.min.y + 0.05f;
+
+        float xLeft = bounds.min.x + 0.11f;
+        float xRight = bounds.max.x - 0.11f;
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(xLeft, yPos), Vector2.down, rayLength, groundLayer.value);
+        RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(xRight, yPos), Vector2.down, rayLength, groundLayer.value);
+
+
+        return hitLeft.collider != null || hitRight.collider != null;
     }
+
 
     void Jump()
     {
@@ -133,8 +152,23 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        StartCoroutine(KillOnAnimationEnd());
+    }
+    IEnumerator KillOnAnimationEnd()
+    {
+        animator.SetBool("isDead", true);
+        rigidBody.bodyType = RigidbodyType2D.Static;
+
+        yield return new WaitForSeconds(0.5f);
+
         GameManager.instance.AddLives(-1);
+
+        animator.SetBool("isDead", false);
+        rigidBody.bodyType = RigidbodyType2D.Dynamic;
+
         transform.position = startPosition;
-        rigidBody.linearVelocity = Vector2.zero;
+
+       
+        
     }
 }
