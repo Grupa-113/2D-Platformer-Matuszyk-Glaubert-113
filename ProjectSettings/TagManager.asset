@@ -9,6 +9,7 @@ TagManager:
   - Bonus
   - Enemy
   - Heart
+  - Platform
   layers:
   - Default
   - TransparentFX

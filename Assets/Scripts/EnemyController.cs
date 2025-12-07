@@ -95,6 +95,11 @@ public class EnemyController : MonoBehaviour
                 StartCoroutine(KillOnAnimationEnd());
                 GameManager.instance.AddenemiesKill(1);
             }
+            else
+            {
+                PlayerController player = col.gameObject.GetComponent<PlayerController>();
+                player.Die();
+            }
         }
     }
 

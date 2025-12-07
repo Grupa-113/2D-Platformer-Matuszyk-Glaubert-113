@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight=true;
     private Vector2 startPosition;
 
+    private float horizontalInput;
+
     private void Awake()
     {
         startPosition = transform.position;
@@ -33,6 +35,18 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance.currentGameState == GameState.GAME)
         {
 
+            horizontalInput = 0;
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                horizontalInput = 1;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                horizontalInput = -1;
+            }
+
+
+
 
             isRunning = false;
 
@@ -41,31 +55,31 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
 
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            if (horizontalInput > 0 && !isFacingRight)
             {
-                transform.Translate(moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
-                isRunning = true;
-
-                if (isFacingRight == false)
-                {
-                    Flip();
-                }
+                Flip();
             }
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            else if (horizontalInput < 0 && isFacingRight)
             {
-                transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
-                isRunning = true;
-
-                if (isFacingRight == true)
-                {
-                    Flip();
-                }
+                Flip();
             }
 
-            Debug.DrawRay(transform.position, rayLength * Vector3.down, Color.white, 0.1f, false);
+            
 
+
+            isRunning = horizontalInput != 0;
             animator.SetBool("isGrounded", IsGrounded());
             animator.SetBool("isRunning", isRunning);
+
+            Debug.DrawRay(transform.position, rayLength * Vector3.down, Color.white, 0.1f, false);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (GameManager.instance.currentGameState == GameState.GAME)
+        {
+            rigidBody.linearVelocity = new Vector2(horizontalInput * moveSpeed, rigidBody.linearVelocity.y);
         }
     }
 
@@ -99,9 +113,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (col.CompareTag("LevelFall")){
-            this.transform.position = startPosition;
-            GameManager.instance.AddLives(-1);
-            Debug.Log("odjeto serduszko");
+            Die();
         }
 
         if (col.CompareTag("Bonus") )
@@ -116,19 +128,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log("dodano serduszko");
             
         }
-        if (col.CompareTag("Enemy"))
-        {
-            if(this.transform.position.y > col.gameObject.transform.position.y)
-            {
 
-                Debug.Log("Killed an enemy");
-            }
-            else if(col){
-                this.transform.position = startPosition;
-                GameManager.instance.AddLives(-1);
-                Debug.Log("odjeto serduszko");
-            }
-        }
+    }
 
+    public void Die()
+    {
+        GameManager.instance.AddLives(-1);
+        transform.position = startPosition;
+        rigidBody.linearVelocity = Vector2.zero;
     }
 }

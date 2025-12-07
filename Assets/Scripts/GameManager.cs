@@ -55,18 +55,20 @@ public class GameManager : MonoBehaviour
     {
 
 
-        InGame();
-        scoreLabel.text = score.ToString();
-        enemyLabel.text = enemyNumber.ToString();
-        livesLabel.text = livesNumber.ToString();
+       
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Debug.LogError("Duplicated Game Manager", gameObject);
+            Destroy(gameObject);
+            return;
         }
+        ResetGameParams();
+
     }
 
     public void OnRetartButtonClicked()
@@ -139,4 +141,13 @@ public class GameManager : MonoBehaviour
         this.livesNumber += lives;
         livesLabel.text = livesNumber.ToString();
     }
+
+    private void ResetGameParams()
+    {
+        InGame();
+        if (scoreLabel != null) scoreLabel.text = score.ToString();
+        if (enemyLabel != null) enemyLabel.text = enemyNumber.ToString();
+        if (livesLabel != null) livesLabel.text = livesNumber.ToString();
+    }
+
 }
