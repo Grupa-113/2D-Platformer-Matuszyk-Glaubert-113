@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public GameState currentGameState = GameState.GAME;
     public static GameManager instance;
     [SerializeField] private int score = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
         
@@ -53,9 +53,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
-
-       
         if (instance == null)
         {
             instance = this;
@@ -67,7 +64,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        ResetGameParams();
+        //ResetGameParams();
 
     }
 
@@ -103,8 +100,6 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.LEVEL_COMPLETED);
     }
 
-
-
     public void GameOver()
     {
         SetGameState(GameState.PAUSE_MENU);
@@ -115,7 +110,6 @@ public class GameManager : MonoBehaviour
         currentGameState = newGameState;
         if (currentGameState == GameState.GAME)
         {
-
             GameCanvas.enabled = true;
         }
         pauseMenuCanvas.enabled = (currentGameState == GameState.PAUSE_MENU);

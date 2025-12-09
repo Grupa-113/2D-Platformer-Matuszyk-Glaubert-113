@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelConnector : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class LevelConnector : MonoBehaviour
     public TMP_Text sceneTimeLabel;
     public TMP_Text sceneLivesLabel;
     public TMP_Text sceneEnemyLabel;
+
+    [Header("UI References (Buttons)")] 
+    public Button resumeButton;
+    public Button restartButton;
+    public Button menuButton;
 
     [Header("Canvases")]
     public Canvas sceneGameCanvas;
@@ -23,16 +29,40 @@ public class LevelConnector : MonoBehaviour
             GameManager gm = GameManager.instance;
 
 
-            gm.scoreLabel = sceneScoreLabel;
-            gm.timeLabel = sceneTimeLabel;
-            gm.livesLabel = sceneLivesLabel;
-            gm.enemyLabel = sceneEnemyLabel;
+            if (sceneScoreLabel != null) gm.scoreLabel = sceneScoreLabel;
+            if (sceneTimeLabel != null) gm.timeLabel = sceneTimeLabel;
+            if (sceneLivesLabel != null) gm.livesLabel = sceneLivesLabel;
+            if (sceneEnemyLabel != null) gm.enemyLabel = sceneEnemyLabel;
 
-            gm.GameCanvas = sceneGameCanvas;
-            gm.pauseMenuCanvas = scenePauseCanvas;
-            gm.levelCompletedCanvas = sceneLevelCompletedCanvas;
+            if (sceneGameCanvas != null) gm.GameCanvas = sceneGameCanvas;
+            if (scenePauseCanvas != null) gm.pauseMenuCanvas = scenePauseCanvas;
+            if (sceneLevelCompletedCanvas != null) gm.levelCompletedCanvas = sceneLevelCompletedCanvas;
+
+
+            if (resumeButton != null)
+            {
+                resumeButton.onClick.RemoveAllListeners();
+                resumeButton.onClick.AddListener(gm.OnResumeButtonClicked);
+            }
+
+            if (restartButton != null)
+            {
+                restartButton.onClick.RemoveAllListeners();
+                restartButton.onClick.AddListener(gm.OnRetartButtonClicked);
+            }
+
+            if (menuButton != null)
+            {
+                menuButton.onClick.RemoveAllListeners();
+                menuButton.onClick.AddListener(gm.OnRetunrToMainMenuButtonClicked);
+            }
+
 
             gm.InGame();
+        }
+        else
+        {
+            Debug.LogError("LevelConnector: Nie znaleziono GameManagera!");
         }
     }
 }

@@ -16,6 +16,7 @@ public class FallingTrap : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Kinematic;
+        GetComponent<Collider2D>().isTrigger = false;
     }
 
     void Update()
@@ -30,6 +31,7 @@ public class FallingTrap : MonoBehaviour
 
     void Fall()
     {
+        GetComponent<Collider2D>().isTrigger = true;
         falling = true;
         rb.bodyType = RigidbodyType2D.Dynamic; 
         rb.gravityScale = gravityScale;        
@@ -52,7 +54,7 @@ public class FallingTrap : MonoBehaviour
         }
 
 
-        if (col.gameObject.CompareTag("Player") && !falled )
+        if (col.gameObject.CompareTag("Player") && !falled && falling)
         {
             PlayerController player = col.gameObject.GetComponent<PlayerController>();
             player.Die();
