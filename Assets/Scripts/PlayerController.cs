@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [Range(0.01f, 20.0f)][SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private float jumpForce = 3.0f;
     //[Space(10)];
-    private Rigidbody2D rigidBody;
+    private Rigidbody2D rb;
     
     private Collider2D coll;
  
@@ -22,12 +22,14 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight=true;
     private Vector2 startPosition;
 
-    private float horizontalInput;
+    private int horizontalInput;
+
+    private bool stopPlayer = false;
 
     private void Awake()
     {
         startPosition = transform.position;
-        rigidBody =GetComponent<Rigidbody2D>();
+        rb =GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
     }
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead"))
+        if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead") && !stopPlayer)
         {
 
             horizontalInput = 0;
@@ -82,9 +84,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameManager.instance.currentGameState == GameState.GAME)
+        if (GameManager.instance.currentGameState == GameState.GAME && !stopPlayer)
         {
-            rigidBody.linearVelocity = new Vector2(horizontalInput * moveSpeed, rigidBody.linearVelocity.y);
+            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
         }
     }
 
@@ -111,7 +113,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsGrounded())
         {
-            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 
@@ -157,18 +159,38 @@ public class PlayerController : MonoBehaviour
     IEnumerator KillOnAnimationEnd()
     {
         animator.SetBool("isDead", true);
-        rigidBody.bodyType = RigidbodyType2D.Static;
+
+        rb.bodyType = RigidbodyType2D.Static;
 
         yield return new WaitForSeconds(0.5f);
 
         GameManager.instance.AddLives(-1);
 
         animator.SetBool("isDead", false);
-        rigidBody.bodyType = RigidbodyType2D.Dynamic;
+
+        rb.bodyType = RigidbodyType2D.Dynamic;
 
         transform.position = startPosition;
 
        
         
+    }
+
+    public void StopPlayer()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        stopPlayer = true;
+        animator.SetBool("isGrounded", true);
+        animator.SetBool("isRunning", false);
+    }
+    public void StartPlayer()
+    {
+        stopPlayer = false;
+    }
+
+    public bool GetFacingRight()
+    {
+        return isFacingRight;
     }
 }

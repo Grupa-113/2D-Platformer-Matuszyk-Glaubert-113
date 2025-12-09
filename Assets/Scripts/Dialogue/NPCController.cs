@@ -6,9 +6,15 @@ public class NPCController : MonoBehaviour
     public string[] dialogueLines; 
 
     private bool isPlayerClose = false;
-    private DialogueManager dialogueManager;
-    public GameObject button;  
+    private bool possibleTalk = false;
+    private bool whiletalk = false;
 
+    private DialogueManager dialogueManager;
+    
+    public GameObject button;
+    public GameObject player;
+
+    public bool playerFacingRight;
 
     void Start()
     {
@@ -18,12 +24,23 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerClose && Input.GetKeyDown(KeyCode.E))
+        possibleTalk =(playerFacingRight == player.GetComponent<PlayerController>().GetFacingRight());
+        whiletalk = dialogueManager.GetComponent<DialogueManager>().IsDialogueActive();
+
+        if (isPlayerClose && Input.GetKeyDown(KeyCode.E) && possibleTalk)
         {
             if (!dialogueManager.dialogueBox.activeInHierarchy)
             {
                 dialogueManager.StartDialogue(dialogueLines);
             }
+        }
+        if(possibleTalk && isPlayerClose && !whiletalk)
+        {
+            button.SetActive(true);
+        }
+        else
+        {
+            button.SetActive(false);
         }
     }
 
@@ -33,7 +50,7 @@ public class NPCController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isPlayerClose = true;
-            button.SetActive(true);
+            
         }
     }
 

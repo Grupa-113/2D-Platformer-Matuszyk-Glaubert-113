@@ -9,14 +9,19 @@ public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI textDisplay;
     public GameObject dialogueBox;
-    public GameObject background; 
-    public MonoBehaviour playerMovementScript; 
+    public GameObject background;
+    
+    public GameObject player;
+    private PlayerController controller;
 
     private Queue<string> sentences;
     private bool isDialogueActive = false;
 
     void Start()
     {
+
+        controller = player.GetComponent<PlayerController>();
+
         sentences = new Queue<string>();
         dialogueBox.SetActive(false);
         background.SetActive(false);
@@ -33,13 +38,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string[] dialogueLines)
     {
+
+        
+
         isDialogueActive = true;
         background.SetActive(true);
         dialogueBox.SetActive(true); 
-
-       
-        if (playerMovementScript != null)
-            playerMovementScript.enabled = false;
 
         sentences.Clear();
 
@@ -49,6 +53,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         DisplayNextSentence();
+
+        controller.StopPlayer();
     }
 
     public void DisplayNextSentence()
@@ -65,14 +71,18 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator EndDialogueAfterDelay()
     {
-        // Czekamy u³amek sekundy (np. 0.1s), ¿eby klawisz "E" zd¹¿y³ siê "odklikn¹æ"
+
         yield return new WaitForSeconds(0.1f);
 
         isDialogueActive = false;
         dialogueBox.SetActive(false);
         background.SetActive(false);
 
-        if (playerMovementScript != null)
-            playerMovementScript.enabled = true;
+        controller.StartPlayer();
+    }
+
+    public bool IsDialogueActive()
+    {
+        return isDialogueActive;
     }
 }

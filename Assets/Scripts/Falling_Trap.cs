@@ -40,7 +40,7 @@ public class FallingTrap : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
 
-        if (col.gameObject.CompareTag(groundTag))
+        if (col.gameObject.CompareTag(groundTag) && !falled)
         {
             rb.bodyType = RigidbodyType2D.Static;
             GetComponent<Collider2D>().isTrigger = false;
