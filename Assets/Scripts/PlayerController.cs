@@ -4,19 +4,20 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header( "Movement parameters" )]
     [Range(0.01f, 20.0f)][SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private float jumpForce = 3.0f;
-    //[Space(10)];
-    private Rigidbody2D rb;
-    
+
+    private Rigidbody2D rb;    
     private Collider2D coll;
  
 
-
     [SerializeField] private LayerMask groundLayer;
-    private const float rayLength = 0.15f;
+    [SerializeField] private LayerMask wall_To_JumpLayer;
+
+    private const float rayLength = 0.2f;
+    [SerializeField] private const float wallRayLength = 0.03f;
+
     private Animator animator;
     private bool isRunning = false;
     private bool isFacingRight=true;
@@ -25,6 +26,22 @@ public class PlayerController : MonoBehaviour
     private int horizontalInput;
 
     private bool stopPlayer = false;
+
+
+    private float lastJumpTime; 
+    private float jumpCooldown = 0.1f;
+
+    //WALL JUMP 
+    [Header("Wall Jump System")]
+    [SerializeField] private float wallSlidingSpeed = 2f; 
+    [SerializeField] private Vector2 wallJumpPower = new Vector2(8f, 12f); 
+    [SerializeField] private float wallJumpDuration = 0.2f;
+
+    private bool isWallSliding;
+    private bool isWallJumping;
+    private float wallJumpCounter;
+    //WALL JUMP 
+
 
     private void Awake()
     {
@@ -43,41 +60,41 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead") && !stopPlayer)
         {
 
+            //inputy 
             horizontalInput = 0;
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                horizontalInput = 1;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                horizontalInput = -1;
-            }
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)){   horizontalInput = 1;    }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)){   horizontalInput = -1;   }
+            
+            //aktualizacja isWallSlide
+            HandleWallSlide();
 
-
-
-
-            isRunning = false;
-
+            //logika skakania 
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
             {
-                Jump();
+                if (isWallSliding)
+                {
+                    PerformWallJump();
+                }
+                else
+                {
+                    Jump();
+                }
             }
 
-            if (horizontalInput > 0 && !isFacingRight)
+            //odwracanie sprita gracza 
+            if (!isWallJumping)
             {
-                Flip();
-            }
-            else if (horizontalInput < 0 && isFacingRight)
-            {
-                Flip();
+                if (horizontalInput > 0 && !isFacingRight) Flip();
+                else if (horizontalInput < 0 && isFacingRight) Flip();
             }
 
-            
 
 
+            //kontrola animacji 
             isRunning = horizontalInput != 0;
             animator.SetBool("isGrounded", IsGrounded());
             animator.SetBool("isRunning", isRunning);
+            animator.SetBool("isWallSliding", isWallSliding);
 
         }
     }
@@ -86,9 +103,66 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.currentGameState == GameState.GAME && !stopPlayer)
         {
-            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+            if (!isWallJumping)
+            {
+                rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+            }
         }
     }
+
+
+    private bool IsTouchingWall() //sprawdzanie czy dotykamy œciany
+    {
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+
+        RaycastHit2D hit = Physics2D.Raycast(coll.bounds.center, direction, wallRayLength + coll.bounds.extents.x, wall_To_JumpLayer);
+        Debug.DrawRay(coll.bounds.center, direction * (wallRayLength + coll.bounds.extents.x), Color.red);
+        return hit.collider != null;
+    }
+
+    private void HandleWallSlide()
+    {
+        
+        bool isTouchingWall = IsTouchingWall();
+        bool isGrounded = IsGrounded();
+
+        if (isTouchingWall && !isGrounded )//wall sliding tylko jak NIE dotykamy ziemi i DOTYKAMY sciany  
+        {
+            isWallSliding = true;
+            //sztuczne tarcie 
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+    }
+
+    private void PerformWallJump()
+    {
+        isWallJumping = true;
+
+        // Reset prêdkoœci
+        rb.linearVelocity = Vector2.zero;
+
+        // Kierunek odbicia (przeciwny do patrzenia)
+        float jumpDirection = isFacingRight ? -1 : 1;
+
+        // skok
+        Vector2 force = new Vector2(wallJumpPower.x * jumpDirection, wallJumpPower.y);
+        rb.AddForce(force, ForceMode2D.Impulse);
+
+        Flip();
+
+        StartCoroutine(StopWallJumpAfterTime());
+    }
+
+    IEnumerator StopWallJumpAfterTime()
+    {
+        yield return new WaitForSeconds(wallJumpDuration);
+        isWallJumping = false;
+    }
+
 
 
 
@@ -108,12 +182,14 @@ public class PlayerController : MonoBehaviour
         return hitLeft.collider != null || hitRight.collider != null;
     }
 
-
     void Jump()
     {
-        if (IsGrounded())
+        if (IsGrounded() && Time.time - lastJumpTime > jumpCooldown)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+
+            lastJumpTime = Time.time;
         }
     }
 
@@ -125,17 +201,12 @@ public class PlayerController : MonoBehaviour
         transform.localScale = theScale;
     }
 
+
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("LevelExit"))
-        {
-            GameManager.instance.LevelCompleted();
-            Debug.Log("Game over");
-        }
+        if (col.CompareTag("LevelExit")){   GameManager.instance.LevelCompleted();  }
 
-        if (col.CompareTag("LevelFall")){
-            Die();
-        }
+        if (col.CompareTag("LevelFall")){   Die();  }
 
         if (col.CompareTag("Bonus") )
         {
@@ -146,11 +217,11 @@ public class PlayerController : MonoBehaviour
         {
             col.gameObject.SetActive(false);
             GameManager.instance.AddLives(1);
-            Debug.Log("dodano serduszko");
-            
         }
 
     }
+
+
 
     public void Die()
     {
@@ -176,6 +247,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
+
     public void StopPlayer()
     {
         rb.linearVelocity = Vector2.zero;
@@ -188,7 +260,6 @@ public class PlayerController : MonoBehaviour
     {
         stopPlayer = false;
     }
-
     public bool GetFacingRight()
     {
         return isFacingRight;

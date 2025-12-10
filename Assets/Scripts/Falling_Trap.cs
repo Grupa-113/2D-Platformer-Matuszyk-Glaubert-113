@@ -9,14 +9,18 @@ public class FallingTrap : MonoBehaviour
     public string groundTag;   
 
     private Rigidbody2D rb;
+    private Collider2D coll;
     private bool falling = false;
-    private bool falled = false; 
+    public bool falled = false; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
+
         rb.bodyType = RigidbodyType2D.Kinematic;
-        GetComponent<Collider2D>().isTrigger = false;
+
+        coll.isTrigger = false;
     }
 
     void Update()
@@ -29,35 +33,89 @@ public class FallingTrap : MonoBehaviour
         }
     }
 
-    void Fall()
+    public void Fall()
     {
-        GetComponent<Collider2D>().isTrigger = true;
+        coll.isTrigger = false;
         falling = true;
         rb.bodyType = RigidbodyType2D.Dynamic; 
-        rb.gravityScale = gravityScale;        
+        rb.gravityScale = gravityScale;
+        rb.mass = 1000;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+
+    private void OnCollisionEnter2D(Collision2D col)
     {
+        HandleCollision(col);
+    }
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        HandleCollision(col);
+    }
 
-        if (col.gameObject.CompareTag(groundTag) && !falled)
+
+    private void HandleCollision(Collision2D col)
+    {
+        FallingTrap otherTrap = col.gameObject.GetComponent<FallingTrap>();
+
+        // hit w innego trapa "DOMINO"
+        if (otherTrap != null && !falled)
         {
-            rb.bodyType = RigidbodyType2D.Static;
-            GetComponent<Collider2D>().isTrigger = false;
-
-            float gridSize = 0.16f;
-            float snapY = Mathf.Round(transform.position.y / gridSize) * gridSize + 0.08f;
-
-            transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
-
-            falled = true;
+            if (!otherTrap.falled && !otherTrap.falling)
+            {
+                otherTrap.Fall();
+            }
         }
 
+        //jesli spadl to nic nie sprawdza
+        if (falled) return;
 
-        if (col.gameObject.CompareTag("Player") && !falled && falling)
+
+        bool isJustGround = col.gameObject.CompareTag(groundTag) && otherTrap == null; //prawdziwa ziemia
+        bool isFallenTrap = (otherTrap != null && otherTrap.falled);    //dotkciecie sie z trapem który ju¿ spad³ czyli jak ziemia 
+
+        
+        bool hitFromBottom = false; // czy dotkciecie jest od dolu 
+        foreach (ContactPoint2D contact in col.contacts)
         {
-            PlayerController player = col.gameObject.GetComponent<PlayerController>();
-            player.Die();
+            if (contact.normal.y > 0.5f)
+            {
+                hitFromBottom = true;
+                break;
+            }
+        }
+
+        //spadanie na cos stalego
+        if ((isJustGround || isFallenTrap) && hitFromBottom)
+        {
+            rb.bodyType = RigidbodyType2D.Static;
+            coll.isTrigger = false;
+            falled = true;
+            falling = false;
+
+            
+            if (isFallenTrap) //skrzynka na skrzynce
+            {
+                transform.position = new Vector3(transform.position.x, otherTrap.transform.position.y + 0.16f, transform.position.z);
+            }
+            else  //upadek na ziemie 
+            {
+                float gridSize = 0.16f;
+                float snapY = Mathf.Floor((transform.position.y / gridSize) + 0.5f) * gridSize + 0.08f;
+                transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
+            }
+        }
+
+       
+        if (col.gameObject.CompareTag("Player"))
+        {
+            if (rb.linearVelocity.y < -1f)
+            {
+                PlayerController player = col.gameObject.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.Die();
+                }
+            }
         }
     }
 

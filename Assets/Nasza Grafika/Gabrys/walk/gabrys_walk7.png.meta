@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6811a763e05b6ed45bddcf8bb07ea541
+guid: d9c900aa94a7a0d45a296783ff8c781a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -518739968032253171
-    second: GABRYSCOIDZIE1_0
+      213: -1558801749471945381
+    second: gabrys_walk7_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GABRYSCOIDZIE1_0
+      name: gabrys_walk7_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 311
-        height: 261
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d0bd3aa5fb01dc8f0800000000000000
-      internalID: -518739968032253171
+      spriteID: b5d977751160e5ae0800000000000000
+      internalID: -1558801749471945381
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GABRYSCOIDZIE1_0: -518739968032253171
+      gabrys_walk7_0: -1558801749471945381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

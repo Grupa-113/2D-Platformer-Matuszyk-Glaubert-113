@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2ddfb8730844e4d4dad4edfaa3d2dfae
+guid: 632120a13928526469542a3b4653fe25
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4529251545045861360
-    second: GABRYSCOIDZIE2_0
+      213: 6924857223023203693
+    second: krecacecos-export_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GABRYSCOIDZIE2_0
+      name: krecacecos-export_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 9
         y: 0
-        width: 311
-        height: 261
+        width: 451
+        height: 441
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0f309d088422bde30800000000000000
-      internalID: 4529251545045861360
+      spriteID: d65989274f80a1060800000000000000
+      internalID: 6924857223023203693
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GABRYSCOIDZIE2_0: 4529251545045861360
+      krecacecos-export_0: 6924857223023203693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
