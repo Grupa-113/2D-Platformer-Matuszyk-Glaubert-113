@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    [TextArea(3, 10)] 
-    public string[] dialogueLines; 
+    
+    public DialogueLine[] dialogueLines; 
 
     private bool isPlayerClose = false;
     private bool possibleTalk = false;
@@ -64,4 +64,13 @@ public class NPCController : MonoBehaviour
 
         }
     }
+}
+
+//klasa do dialogów 
+[System.Serializable] 
+public class DialogueLine
+{
+    public string speakerName; 
+    [TextArea(3, 10)]
+    public string sentence;    
 }

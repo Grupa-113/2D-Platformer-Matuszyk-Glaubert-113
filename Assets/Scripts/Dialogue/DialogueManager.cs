@@ -8,13 +8,15 @@ using UnityEngine.UIElements;
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI textDisplay;
+    public TextMeshProUGUI nameDisplay;
+
     public GameObject dialogueBox;
-    public GameObject background;
+
     
     public GameObject player;
     private PlayerController controller;
 
-    private Queue<string> sentences;
+    private Queue<DialogueLine> sentences;
     private bool isDialogueActive = false;
 
     void Start()
@@ -22,9 +24,9 @@ public class DialogueManager : MonoBehaviour
 
         controller = player.GetComponent<PlayerController>();
 
-        sentences = new Queue<string>();
+        sentences = new Queue<DialogueLine>();
         dialogueBox.SetActive(false);
-        background.SetActive(false);
+
     }
 
     void Update()
@@ -36,18 +38,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(string[] dialogueLines)
+    public void StartDialogue(DialogueLine[] dialogueLines)
     {
 
         
 
         isDialogueActive = true;
-        background.SetActive(true);
         dialogueBox.SetActive(true); 
 
         sentences.Clear();
 
-        foreach (string sentence in dialogueLines)
+        foreach (DialogueLine sentence in dialogueLines)
         {
             sentences.Enqueue(sentence);
         }
@@ -65,8 +66,9 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        string sentence = sentences.Dequeue();
-        textDisplay.text = sentence;
+        DialogueLine currentLine = sentences.Dequeue();
+        textDisplay.text = currentLine.sentence;
+        nameDisplay.text = currentLine.speakerName;
     }
 
     IEnumerator EndDialogueAfterDelay()
@@ -76,7 +78,7 @@ public class DialogueManager : MonoBehaviour
 
         isDialogueActive = false;
         dialogueBox.SetActive(false);
-        background.SetActive(false);
+
 
         controller.StartPlayer();
     }

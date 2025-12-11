@@ -180,7 +180,13 @@ MonoBehaviour:
   jumpForce: 4
   groundLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 98304
+  wall_To_JumpLayer:
+    serializedVersion: 2
+    m_Bits: 65536
+  wallSlidingSpeed: 0.15
+  wallJumpPower: {x: 2, y: 3}
+  wallJumpDuration: 0.1
 --- !u!95 &7967633690372380632
 Animator:
   serializedVersion: 7
