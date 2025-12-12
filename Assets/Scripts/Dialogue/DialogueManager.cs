@@ -19,6 +19,13 @@ public class DialogueManager : MonoBehaviour
     private Queue<DialogueLine> sentences;
     private bool isDialogueActive = false;
 
+
+    [Header("Ustawienia Pisania")]
+    public float typingSpeed = 0.05f; 
+    private bool isTyping = false; 
+    private string currentSentence = "";
+
+
     void Start()
     {
 
@@ -34,7 +41,16 @@ public class DialogueManager : MonoBehaviour
         
         if (isDialogueActive && Input.GetKeyDown(KeyCode.E))
         {
-            DisplayNextSentence();
+            if (isTyping) //anulowanie efektu pisania 
+            {
+                StopAllCoroutines();
+                textDisplay.text = currentSentence;
+                isTyping = false;
+            }
+            else
+            {
+                DisplayNextSentence();
+            }
         }
     }
 
@@ -67,8 +83,18 @@ public class DialogueManager : MonoBehaviour
         }
 
         DialogueLine currentLine = sentences.Dequeue();
-        textDisplay.text = currentLine.sentence;
         nameDisplay.text = currentLine.speakerName;
+
+
+        textDisplay.text = currentLine.sentence;
+
+        currentSentence = currentLine.sentence;
+
+
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(currentSentence));
+
+
     }
 
     IEnumerator EndDialogueAfterDelay()
@@ -86,5 +112,20 @@ public class DialogueManager : MonoBehaviour
     public bool IsDialogueActive()
     {
         return isDialogueActive;
+    }
+    
+
+    IEnumerator TypeSentence(string sentence)
+    {
+        isTyping = true;
+        textDisplay.text = ""; 
+
+        foreach (char letter in sentence.ToCharArray())
+        {
+            textDisplay.text += letter; 
+            yield return new WaitForSeconds(typingSpeed); 
+        }
+
+        isTyping = false; 
     }
 }

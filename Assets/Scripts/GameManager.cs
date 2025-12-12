@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Duplicated Game Manager", gameObject);
             Destroy(gameObject);
             return;
         }

@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
 
     private float lastJumpTime; 
-    private float jumpCooldown = 0.1f;
+    private float jumpCooldown = 0.3f;
 
     //WALL JUMP 
     [Header("Wall Jump System")]
@@ -103,7 +104,19 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.currentGameState == GameState.GAME && !stopPlayer)
         {
-            if (!isWallJumping)
+            if (isWallSliding && !isWallJumping)//slizganie po scianie 
+            {
+                //jesli sie slizgamy po lewej scianie nie mozemy robic ruchu w lewo itd 
+                if (isFacingRight && horizontalInput<0)
+                {
+                    rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+                }
+                else if(!isFacingRight && horizontalInput>0)
+                {
+                    rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+                }
+            }
+            else if (!isWallJumping)
             {
                 rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
             }
@@ -116,7 +129,7 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
 
         RaycastHit2D hit = Physics2D.Raycast(coll.bounds.center, direction, wallRayLength + coll.bounds.extents.x, wall_To_JumpLayer);
-        Debug.DrawRay(coll.bounds.center, direction * (wallRayLength + coll.bounds.extents.x), Color.red);
+        Debug.DrawRay(coll.bounds.center, direction * (wallRayLength + coll.bounds.extents.x), Color.blue);
         return hit.collider != null;
     }
 
@@ -172,11 +185,13 @@ public class PlayerController : MonoBehaviour
 
         float yPos = bounds.min.y + 0.05f;
 
-        float xLeft = bounds.min.x + 0.11f;
-        float xRight = bounds.max.x - 0.11f;
+        float xLeft = bounds.min.x;
+        float xRight = bounds.max.x;
 
         RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(xLeft, yPos), Vector2.down, rayLength, groundLayer.value);
+        Debug.DrawRay(new Vector3( xLeft,transform.position.y,transform.position.z), Vector2.down * rayLength, Color.green);
         RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(xRight, yPos), Vector2.down, rayLength, groundLayer.value);
+        Debug.DrawRay(new Vector3(xRight, transform.position.y, transform.position.z), Vector2.down * rayLength, Color.green);
 
 
         return hitLeft.collider != null || hitRight.collider != null;
