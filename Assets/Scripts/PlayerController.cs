@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wall_To_JumpLayer;
 
-    private const float rayLength = 0.2f;
+    private const float rayLength = 0.175f;
     [SerializeField] private const float wallRayLength = 0.03f;
 
     private Animator animator;
@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private bool stopPlayer = false;
 
+    private bool wasGrounded = false;
+    private float previousVelocityY;
 
     private float lastJumpTime; 
     private float jumpCooldown = 0.3f;
@@ -40,9 +42,13 @@ public class PlayerController : MonoBehaviour
 
     private bool isWallSliding;
     private bool isWallJumping;
-    private float wallJumpCounter;
     //WALL JUMP 
-
+    [Header("Particles")]
+    [SerializeField] private GameObject jumpEffect;
+    [SerializeField] private float offsetJumpEffect = 0.1f;
+    [SerializeField] private GameObject fallEffect;
+    [SerializeField] private float offsetfallEffect = 0.1f;
+    [SerializeField] private float minFallVelocity = -5f;
 
     private void Awake()
     {
@@ -61,8 +67,10 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead") && !stopPlayer)
         {
 
-            //inputy 
-            horizontalInput = 0;
+            HandleFallEfect();
+
+           //inputy 
+           horizontalInput = 0;
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)){   horizontalInput = 1;    }
             else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)){   horizontalInput = -1;   }
             
@@ -121,6 +129,20 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
             }
         }
+    }
+
+
+    private void HandleFallEfect() {
+
+        bool isGrounded = IsGrounded();
+        //wykrycie ladowania
+        if (isGrounded && !wasGrounded && previousVelocityY < minFallVelocity)
+        {
+            Instantiate(fallEffect, new Vector3(transform.position.x, transform.position.y + offsetfallEffect, transform.position.z), Quaternion.identity);
+        }
+        wasGrounded = isGrounded;
+        previousVelocityY = rb.linearVelocity.y;
+
     }
 
 
@@ -197,13 +219,13 @@ public class PlayerController : MonoBehaviour
         return hitLeft.collider != null || hitRight.collider != null;
     }
 
+  
     void Jump()
     {
         if (IsGrounded() && Time.time - lastJumpTime > jumpCooldown)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-
-
+            Instantiate(jumpEffect, new Vector3(transform.position.x, transform.position.y + offsetJumpEffect, transform.position.z), Quaternion.identity);
             lastJumpTime = Time.time;
         }
     }

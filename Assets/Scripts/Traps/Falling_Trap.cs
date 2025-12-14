@@ -11,7 +11,10 @@ public class FallingTrap : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D coll;
     private bool falling = false;
-    public bool falled = false; 
+    public bool falled = false;
+
+    public GameObject smokeEffect;
+    
 
     void Start()
     {
@@ -102,6 +105,10 @@ public class FallingTrap : MonoBehaviour
                 float gridSize = 0.16f;
                 float snapY = Mathf.Floor((transform.position.y / gridSize) + 0.5f) * gridSize + 0.08f;
                 transform.position = new Vector3(transform.position.x, snapY, transform.position.z);
+
+
+
+                Instantiate(smokeEffect, new Vector3(transform.position.x,transform.position.y-0.02f,transform.position.z), Quaternion.identity);
             }
         }
 
