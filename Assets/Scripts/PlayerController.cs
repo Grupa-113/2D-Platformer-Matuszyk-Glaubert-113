@@ -46,9 +46,14 @@ public class PlayerController : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private GameObject jumpEffect;
     [SerializeField] private float offsetJumpEffect = 0.1f;
+
     [SerializeField] private GameObject fallEffect;
     [SerializeField] private float offsetfallEffect = 0.1f;
     [SerializeField] private float minFallVelocity = -5f;
+
+    [SerializeField] private GameObject wallJumpEffect;
+    [SerializeField] private float offsetWallJumpEffect = 0.1f;
+
 
     private void Awake()
     {
@@ -186,6 +191,15 @@ public class PlayerController : MonoBehaviour
         // skok
         Vector2 force = new Vector2(wallJumpPower.x * jumpDirection, wallJumpPower.y);
         rb.AddForce(force, ForceMode2D.Impulse);
+
+
+        GameObject particle = Instantiate(wallJumpEffect, new Vector3(transform.position.x, transform.position.y + offsetWallJumpEffect, transform.position.z), Quaternion.identity);
+        if (!isFacingRight)
+        {
+            Vector3 newScale = particle.transform.localScale;
+            newScale.x *= -1; 
+            particle.transform.localScale = newScale;
+        }
 
         Flip();
 

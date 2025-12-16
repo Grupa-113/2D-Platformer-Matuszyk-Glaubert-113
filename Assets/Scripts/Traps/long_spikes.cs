@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class long_spikes : MonoBehaviour
 {
-    [Header("Time Settings")] 
+    [Header("Time Settings")]
+    [SerializeField] private float startDelay = 1.0f;
     [SerializeField] private float timeDown = 2.0f;   
     [SerializeField] private float timeUp = 2.0f;       
 
@@ -30,6 +31,8 @@ public class long_spikes : MonoBehaviour
 
     IEnumerator TrapRoutine()
     {
+        
+        yield return new WaitForSeconds(startDelay);
         while (true) 
         {
 

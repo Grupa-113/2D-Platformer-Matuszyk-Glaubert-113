@@ -127,8 +127,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.15132833}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.15, y: 0.32}
+    pivot: {x: 0.5, y: 0.25}
+    oldSize: {x: 0.9375, y: 2}
     newSize: {x: 0.15, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -170,9 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad141c0312c49843a8ddeb2d4ae4236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDown: 2
-  timeUp: 2
+  startDelay: 1
+  timeDown: 1
+  timeUp: 1
   UPDuration: 0.4
   DOWNDuration: 0.4
   drillEfect: {fileID: 5956003278152671644, guid: 03ebd4e8e5d52274f9934e726628f2b5, type: 3}
-  offsetdrillEfect: -0.04
+  offsetdrillEfect: 0.035
