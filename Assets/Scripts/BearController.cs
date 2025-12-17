@@ -10,6 +10,9 @@ public class BearEnemy : MonoBehaviour
     [SerializeField] private float followRange = 8.0f;
     [SerializeField] private Transform player;
 
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private LayerMask playerMask;
+
     private Collider2D coll;
     private float heightMargin = 0.05f;
     private bool isFacingRight = true;
@@ -47,7 +50,7 @@ public class BearEnemy : MonoBehaviour
         if (isFollowing)
         {
             moveSpeed = followSpeed;
-            if (distX >= followRange || PlayerTooHigh())
+            if (distX >= followRange || PlayerTooHigh() || !SeePlayer())
             {
                 isFollowing = false;
                 moveSpeed = normalSpeed;
@@ -62,7 +65,7 @@ public class BearEnemy : MonoBehaviour
         {
             moveSpeed = normalSpeed;
 
-            if (distX < followRange && HasGroundedBoth())
+            if (distX < followRange && SeePlayer())
             {
                 isFollowing = true;
                 FollowPlayer();
@@ -73,52 +76,58 @@ public class BearEnemy : MonoBehaviour
             }
         }
 
-
-        
-
     }
 
-    bool HasGroundedBoth()
+    bool IsPlayerGrounded()
     {
-        Bounds bounds = coll.bounds;
+        if (player == null) return false;
+        PlayerController pl = player.GetComponent<PlayerController>();
+        if (pl == null) return false;
+        return pl.IsPlayerGrounded();
+    }
 
-        float groundY = bounds.min.y + 0.05f;
-        Vector2 hitdown = new Vector2(transform.position.x, groundY);
-        Vector2 dir;
-
-        if(player.position.x >= transform.position.x)
+    bool SeePlayer()
+    {
+        Vector2 rayStart = new Vector2(coll.bounds.center.x, coll.bounds.center.y - 0.2f);
+        Vector2 direction = Vector2.left;
+        if ((player.position.x >= transform.position.x))
         {
-            dir = Vector2.right;
+            direction = Vector2.right;
         }
-        else
-        {
-            dir = Vector2.left;
-        }
+        
+        float distance = Mathf.Abs(player.position.x - transform.position.x);
 
-         RaycastHit2D hit = Physics2D.Raycast(hitdown, dir, followRange);
-
-
-        if (hit.collider == null)
+        // sciana na drodze to nie widzi gracza
+        if (Physics2D.Raycast(rayStart, direction, distance, obstacleMask))
         {
             return false;
         }
-            
 
-        return hit.collider.CompareTag("Player");
+        Debug.DrawRay(
+        rayStart,
+        direction * distance,
+        Color.red
+    );
+
+        return Physics2D.Raycast(rayStart, direction, distance, playerMask);
     }
 
     bool PlayerTooHigh()
     {
-        float bearTopY = coll.bounds.max.y;        
-        float maxAllowedPlayerFootY = bearTopY + heightMargin;
+
+        Bounds bear = coll.bounds;
 
         Collider2D playerColl = player.GetComponent<Collider2D>();
-        float playerFootY;
+        Bounds playerV = playerColl.bounds;
 
-        playerFootY = playerColl.bounds.min.y;   
-   
+        float bearTopY = bear.max.y;
+        float playerFootY = playerV.min.y;
 
-        return playerFootY > maxAllowedPlayerFootY;
+        float diff = playerFootY - bearTopY;
+        float allowed = bear.size.y*5.0f;
+
+
+        return diff > allowed;
     }
 
     void Flip()

@@ -233,8 +233,12 @@ public class PlayerController : MonoBehaviour
         return hitLeft.collider != null || hitRight.collider != null;
     }
 
-  
-    void Jump()
+    public bool IsPlayerGrounded()
+    {
+        return IsGrounded();
+    }
+
+        void Jump()
     {
         if (IsGrounded() && Time.time - lastJumpTime > jumpCooldown)
         {
