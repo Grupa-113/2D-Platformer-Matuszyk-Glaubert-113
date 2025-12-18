@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
     public GameState currentGameState = GameState.GAME;
     public static GameManager instance;
     [SerializeField] private int score = 0;
-   
+
+    public Vector3 lastCheckPointPos = Vector3.zero;
+
     void Start()
     {
         
@@ -67,13 +69,16 @@ public class GameManager : MonoBehaviour
 
     }
 
+
     public void OnRetartButtonClicked()
     {
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void OnRetunrToMainMenuButtonClicked()
     {
+ 
         SceneManager.LoadScene("MainMenu");
     }
 

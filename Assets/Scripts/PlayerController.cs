@@ -259,11 +259,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("LevelExit")){   GameManager.instance.LevelCompleted();  }
+        if (col.CompareTag("LevelExit")) { GameManager.instance.LevelCompleted(); }
 
-        if (col.CompareTag("LevelFall")){   Die();  }
+        if (col.CompareTag("LevelFall")) { Die(); }
 
-        if (col.CompareTag("Bonus") )
+        if (col.CompareTag("Bonus"))
         {
             GameManager.instance.AddPoints(3);
             col.gameObject.SetActive(false);
@@ -274,6 +274,9 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.AddLives(1);
         }
 
+        if (col.CompareTag("Checkpoint")){
+            startPosition = col.transform.position;
+        }
     }
 
 
@@ -298,8 +301,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = startPosition;
 
-       
-        
+
     }
 
 

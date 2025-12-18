@@ -50,7 +50,16 @@ public class BearEnemy : MonoBehaviour
         if (isFollowing)
         {
             moveSpeed = followSpeed;
-            if (distX >= followRange || PlayerTooHigh() || !SeePlayer())
+
+            if (isWall())
+            {
+                isFollowing = false;
+                moveSpeed = normalSpeed;
+                isMovingRight = !isMovingRight; 
+                Flip();
+                Moving(); 
+            }
+            else if (distX >= followRange || PlayerTooHigh() || !SeePlayer())
             {
                 isFollowing = false;
                 moveSpeed = normalSpeed;
@@ -88,28 +97,17 @@ public class BearEnemy : MonoBehaviour
 
     bool SeePlayer()
     {
-        Vector2 rayStart = new Vector2(coll.bounds.center.x, coll.bounds.center.y - 0.2f);
-        Vector2 direction = Vector2.left;
-        if ((player.position.x >= transform.position.x))
-        {
-            direction = Vector2.right;
-        }
-        
+        Vector2 direction = (player.position.x >= transform.position.x) ? Vector2.right : Vector2.left;
         float distance = Mathf.Abs(player.position.x - transform.position.x);
 
-        // sciana na drodze to nie widzi gracza
-        if (Physics2D.Raycast(rayStart, direction, distance, obstacleMask))
+        if (Physics2D.Raycast(coll.bounds.center, direction, distance, obstacleMask))
         {
             return false;
         }
 
-        Debug.DrawRay(
-        rayStart,
-        direction * distance,
-        Color.red
-    );
+        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, direction, distance, playerMask);
 
-        return Physics2D.Raycast(rayStart, direction, distance, playerMask);
+        return hit.collider != null;
     }
 
     bool PlayerTooHigh()
@@ -152,7 +150,7 @@ public class BearEnemy : MonoBehaviour
     IEnumerator KillOnAnimationEnd()
     {
         /* yield return new WaitForSecond(time_in_seconds);*/
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.0f);
         gameObject.SetActive(false);
     }
     void OnTriggerEnter2D(Collider2D col)
@@ -205,9 +203,18 @@ public class BearEnemy : MonoBehaviour
     private bool isWall()
     {
         Bounds bounds = coll.bounds;
+        float x;
 
-        float groundY = bounds.min.y + 0.5f;
-        Vector2 hitWall = new Vector2(transform.position.x, groundY);
+        if (isMovingRight)
+        {
+            x = bounds.max.x;
+        }
+        else
+        {
+            x= bounds.min.x;
+        }
+
+        Vector2 hitWall = new Vector2(x, bounds.center.y);
         Vector2 dir;
 
         if (isMovingRight)
@@ -219,7 +226,7 @@ public class BearEnemy : MonoBehaviour
             dir = Vector2.left;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(hitWall, dir, 0.05f);
+        RaycastHit2D hit = Physics2D.Raycast(hitWall, dir, 0.1f, obstacleMask);
 
 
         if (hit.collider == null)

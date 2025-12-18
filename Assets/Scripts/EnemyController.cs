@@ -87,6 +87,11 @@ public class EnemyController : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            if (killed)
+            {
+                return;
+            }
+
             if (this.transform.position.y < col.gameObject.transform.position.y)
             {
                 killed = true;
