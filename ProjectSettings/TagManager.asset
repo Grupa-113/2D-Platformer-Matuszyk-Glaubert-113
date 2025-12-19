@@ -54,6 +54,9 @@ TagManager:
   - name: Props
     uniqueID: 2965948947
     locked: 0
+  - name: Traps
+    uniqueID: 2992929411
+    locked: 0
   - name: TileMap
     uniqueID: 2254123217
     locked: 0

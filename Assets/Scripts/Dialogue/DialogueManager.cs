@@ -26,6 +26,10 @@ public class DialogueManager : MonoBehaviour
     private string currentSentence = "";
 
 
+    [Header("kamera zoom")]
+    public UnityStandardAssets._2D.CameraFollow cameraScript;
+
+
     void Start()
     {
 
@@ -54,10 +58,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueLine[] dialogueLines)
+    public void StartDialogue(DialogueLine[] dialogueLines, Transform npcTransform)
     {
 
-        
+        cameraScript.SetZoom(true, npcTransform);
 
         isDialogueActive = true;
         dialogueBox.SetActive(true); 
@@ -99,7 +103,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator EndDialogueAfterDelay()
     {
-
+        cameraScript.SetZoom(false);
         yield return new WaitForSeconds(0.1f);
 
         isDialogueActive = false;

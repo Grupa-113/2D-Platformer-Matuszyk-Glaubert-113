@@ -31,7 +31,7 @@ public class NPCController : MonoBehaviour
         {
             if (!dialogueManager.dialogueBox.activeInHierarchy)
             {
-                dialogueManager.StartDialogue(dialogueLines);
+                dialogueManager.StartDialogue(dialogueLines,transform);
             }
         }
         if(possibleTalk && isPlayerClose && !whiletalk)
