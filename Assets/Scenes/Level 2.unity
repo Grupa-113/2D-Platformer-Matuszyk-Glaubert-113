@@ -13203,6 +13203,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -307
       objectReference: {fileID: 0}
+    - target: {fileID: 565327266043039692, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -178
+      objectReference: {fileID: 0}
+    - target: {fileID: 565327266043039692, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 168
+      objectReference: {fileID: 0}
     - target: {fileID: 1078396118637050894, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -13246,6 +13254,46 @@ PrefabInstance:
     - target: {fileID: 1778822506299210115, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 288
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_text
+      value: "CZY KTO\u015A WIDZIA\u0141 GABRYSIA ?"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_margin.z
+      value: -418.7505
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 99264d7db9ab163408579b51eb07f853, type: 2}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -5417819063742551439, guid: 99264d7db9ab163408579b51eb07f853, type: 2}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462650048326502763, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135208940628614278, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135208940628614278, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135208940628614278, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3549923547070450301, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_Name
@@ -13334,6 +13382,22 @@ PrefabInstance:
     - target: {fileID: 7459156162304831668, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593957958104960664, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 99264d7db9ab163408579b51eb07f853, type: 2}
+    - target: {fileID: 7593957958104960664, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -5417819063742551439, guid: 99264d7db9ab163408579b51eb07f853, type: 2}
+    - target: {fileID: 7593957958104960664, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711059192905433184, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+      propertyPath: m_Transition
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
