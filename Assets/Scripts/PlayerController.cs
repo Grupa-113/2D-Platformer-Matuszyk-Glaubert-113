@@ -277,6 +277,18 @@ public class PlayerController : MonoBehaviour
         if (col.CompareTag("Checkpoint")){
             startPosition = new Vector2(col.transform.position.x,col.transform.position.y+0.3f);
         }
+
+        if (col.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(col.transform);
+        }
+    }
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(null);
+        }
     }
 
 
