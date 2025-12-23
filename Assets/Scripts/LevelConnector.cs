@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class LevelConnector : MonoBehaviour
 {
@@ -11,15 +12,28 @@ public class LevelConnector : MonoBehaviour
     public TMP_Text sceneLivesLabel;
     public TMP_Text sceneEnemyLabel;
 
-    [Header("UI References (Buttons)")] 
+    [Header("Buttons pause")] 
     public Button resumeButton;
     public Button restartButton;
     public Button menuButton;
+    public Button optionsButton;
+
+    [Header("Buttons options")]
+    public Button resumeButton_options;
+    public Button plus_options;
+    public Button minus_options;
+    public Slider slider_volume_options;
+
+    [Header("UI options")]
+    public TMP_Text quality;
+    public TMP_Text volume;
+
 
     [Header("Canvases")]
     public Canvas sceneGameCanvas;
     public Canvas scenePauseCanvas;
     public Canvas sceneLevelCompletedCanvas;
+    public Canvas sceneOptionsCanvas;
 
     void Start()
     {
@@ -34,28 +48,36 @@ public class LevelConnector : MonoBehaviour
             if (sceneLivesLabel != null) gm.livesLabel = sceneLivesLabel;
             if (sceneEnemyLabel != null) gm.enemyLabel = sceneEnemyLabel;
 
+            if (quality != null) gm.qualityLabel = quality;
+            if (volume != null) gm.volumeLabel = volume;
+
+
+
             if (sceneGameCanvas != null) gm.GameCanvas = sceneGameCanvas;
             if (scenePauseCanvas != null) gm.pauseMenuCanvas = scenePauseCanvas;
             if (sceneLevelCompletedCanvas != null) gm.levelCompletedCanvas = sceneLevelCompletedCanvas;
+            if (sceneOptionsCanvas != null) gm.optionsCanvas = sceneOptionsCanvas;
 
 
-            if (resumeButton != null)
-            {
-                resumeButton.onClick.RemoveAllListeners();
-                resumeButton.onClick.AddListener(gm.OnResumeButtonClicked);
-            }
+            //-----PAUSE MENU
+            bindButton(resumeButton, gm.OnResumeButtonClicked);
 
-            if (restartButton != null)
-            {
-                restartButton.onClick.RemoveAllListeners();
-                restartButton.onClick.AddListener(gm.OnRetartButtonClicked);
-            }
+            bindButton(restartButton, gm.OnRetartButtonClicked);
 
-            if (menuButton != null)
-            {
-                menuButton.onClick.RemoveAllListeners();
-                menuButton.onClick.AddListener(gm.OnRetunrToMainMenuButtonClicked);
-            }
+            bindButton(menuButton, gm.OnRetunrToMainMenuButtonClicked);
+
+            bindButton(optionsButton, gm.Options);
+            //-----PAUSE MENU
+
+
+            //-----OPTIONS 
+            bindButton(resumeButton_options, gm.OnResumeButtonClicked);
+            bindButton(plus_options, gm.PlusButton);
+            bindButton(minus_options, gm.MinusButton);
+
+            slider_volume_options.onValueChanged.RemoveAllListeners();
+            slider_volume_options.onValueChanged.AddListener(gm.SetVolume);
+            //-----OPTIONS 
 
 
             gm.InGame();
@@ -65,4 +87,12 @@ public class LevelConnector : MonoBehaviour
             Debug.LogError("LevelConnector: Nie znaleziono GameManagera!");
         }
     }
+
+    void bindButton(Button button, UnityAction action)
+    {
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action);
+    }
+
+
 }
