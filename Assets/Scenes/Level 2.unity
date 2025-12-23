@@ -15440,7 +15440,7 @@ PrefabInstance:
       objectReference: {fileID: 1119316917}
     - target: {fileID: 3509795895986957272, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBackMenuButtonClicked
+      value: OnRetunrToMainMenuButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 3511210784187303319, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
       propertyPath: m_Color.a
@@ -15780,6 +15780,17 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 4829189666148460103, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
   m_PrefabInstance: {fileID: 1160639334}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1160639336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3428379869556648070, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
+  m_PrefabInstance: {fileID: 1160639334}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &1160639337 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 1798795738739353028, guid: 264de4aef7da34f42a0b954224a8c36f, type: 3}
@@ -16004,6 +16015,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3090013435707854055, guid: 7f13f006622f10845897482e8760b70b, type: 3}
   m_PrefabInstance: {fileID: 1172174398}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1172174400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2201663675100821526, guid: 7f13f006622f10845897482e8760b70b, type: 3}
+  m_PrefabInstance: {fileID: 1172174398}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1191071720 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 308802746028613897, guid: d0bde64872284fe4ca42e8d982ad01da, type: 3}
@@ -46643,6 +46665,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1806179595}
     - target: {fileID: 3726645703311612635, guid: a84fde29a999d884486e43cf91e090a3, type: 3}
+      propertyPath: currentGameState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726645703311612635, guid: a84fde29a999d884486e43cf91e090a3, type: 3}
       propertyPath: levelCompletedCanvas
       value: 
       objectReference: {fileID: 1160639335}
@@ -48930,7 +48956,7 @@ PrefabInstance:
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: menuButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1172174400}
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: plus_options
       value: 
@@ -48938,7 +48964,7 @@ PrefabInstance:
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: resumeButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1452177387}
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: minus_options
       value: 
@@ -48950,7 +48976,7 @@ PrefabInstance:
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: restartButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1160639336}
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: sceneTimeLabel
       value: 
@@ -48974,7 +49000,7 @@ PrefabInstance:
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: scenePauseCanvas
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1806179595}
     - target: {fileID: 8242977816651323657, guid: 5f7459655d418744f873447b52ee2179, type: 3}
       propertyPath: sceneOptionsCanvas
       value: 
