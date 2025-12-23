@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        InGame();
     }
 
     // Update is called once per frame
@@ -106,7 +106,10 @@ public class GameManager : MonoBehaviour
         InGame();
     }
 
-
+    public void OnBackMenuButtonClicked()
+    {
+        PauseMenu();
+    }
 
     public void PauseMenu()
     {
@@ -153,7 +156,8 @@ public class GameManager : MonoBehaviour
     public void SetVolume(float vol)
     {
         AudioListener.volume = vol;
-        volumeLabel.text = AudioListener.volume.ToString();
+        int volumePercentage = Mathf.RoundToInt(vol * 100);
+        volumeLabel.text = volumePercentage.ToString() + "%";
     }
 
     void SetGameState(GameState newGameState)
