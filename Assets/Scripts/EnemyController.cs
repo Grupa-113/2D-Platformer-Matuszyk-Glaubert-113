@@ -3,14 +3,16 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
-    private bool isFacingRight = true;
-    private bool isMovingRight = false;
-    [Range(0.01f, 20.0f)][SerializeField] private float moveSpeed = 2.0f;
-    private Animator animator;
-    private Rigidbody2D rigidBody;
-    private float startPositionX;
-    private bool killed = false;
-    [SerializeField] private float moveRange = 1.0f;
+    protected bool isFacingRight = true;
+    protected bool isMovingRight = false;
+
+    [Range(0.01f, 20.0f)][SerializeField] protected float moveSpeed = 2.0f;
+    [SerializeField] protected float moveRange = 1.0f;
+
+    protected Animator animator;
+    protected Rigidbody2D rigidBody;
+    protected float startPositionX;
+    protected bool killed = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,7 +21,7 @@ public class EnemyController : MonoBehaviour
         
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         
         rigidBody = GetComponent<Rigidbody2D>();
@@ -28,7 +30,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (killed) {return;}
 
@@ -60,7 +62,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Flip()
+    protected void Flip()
     {
         isFacingRight = !isFacingRight;
         Vector3 theScale = transform.localScale;
@@ -68,22 +70,22 @@ public class EnemyController : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    void moveRight()
+    protected virtual void moveRight()
     {
         transform.Translate(moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
 
-    void moveLeft()
+    protected virtual void moveLeft()
     {
-        transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
+      transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
-    IEnumerator KillOnAnimationEnd()
+    protected IEnumerator KillOnAnimationEnd()
     {
         /* yield return new WaitForSecond(time_in_seconds);*/
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
     }
-    void OnTriggerEnter2D(Collider2D col)
+    protected virtual void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
@@ -94,11 +96,7 @@ public class EnemyController : MonoBehaviour
 
             if (this.transform.position.y < col.gameObject.transform.position.y)
             {
-                killed = true;
-                GetComponent<Collider2D>().enabled = false;
-                animator.SetBool("isDead", true);
-                StartCoroutine(KillOnAnimationEnd());
-                GameManager.instance.AddenemiesKill(1);
+                Die();
             }
             else
             {
@@ -107,5 +105,12 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-
+    protected virtual void Die()
+    {
+        killed = true;
+        GetComponent<Collider2D>().enabled = false;
+        animator.SetBool("isDead", true); // Domyœlna nazwa animacji
+        StartCoroutine(KillOnAnimationEnd());
+        GameManager.instance.AddenemiesKill(1);
+    }
 }

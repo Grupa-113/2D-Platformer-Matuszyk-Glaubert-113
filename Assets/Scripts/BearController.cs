@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class BearEnemy : MonoBehaviour
+public class BearEnemy : EnemyController
 {
-    [Range(0.01f, 20.0f)][SerializeField] private float moveSpeed = 2.0f;
+
     [SerializeField] private float followSpeed = 6.0f;
     [SerializeField] private float normalSpeed = 2.0f;
-    [SerializeField] private float moveRange = 1.0f;
     [SerializeField] private float followRange = 8.0f;
     [SerializeField] private Transform player;
 
@@ -14,13 +13,6 @@ public class BearEnemy : MonoBehaviour
     [SerializeField] private LayerMask playerMask;
 
     private Collider2D coll;
-    private float heightMargin = 0.05f;
-    private bool isFacingRight = true;
-    private bool isMovingRight = true;
-    private Animator animator;
-    private Rigidbody2D rigidBody;
-    private float startPositionX;
-    private bool killed = false;
     private bool isFollowing = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,18 +21,15 @@ public class BearEnemy : MonoBehaviour
 
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-
-        rigidBody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        startPositionX = this.transform.position.x;
+        base.Awake();
         coll = GetComponent<Collider2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if (killed) { return; }
 
@@ -55,9 +44,9 @@ public class BearEnemy : MonoBehaviour
             {
                 isFollowing = false;
                 moveSpeed = normalSpeed;
-                isMovingRight = !isMovingRight; 
+                isMovingRight = !isMovingRight;
                 Flip();
-                Moving(); 
+                Moving();
             }
             else if (distX >= followRange || PlayerTooHigh() || !SeePlayer())
             {
@@ -87,14 +76,17 @@ public class BearEnemy : MonoBehaviour
 
     }
 
-    bool IsPlayerGrounded()
+    protected override void moveRight()
     {
-        if (player == null) return false;
-        PlayerController pl = player.GetComponent<PlayerController>();
-        if (pl == null) return false;
-        return pl.IsPlayerGrounded();
+        rigidBody.linearVelocity = new Vector2(moveSpeed, rigidBody.linearVelocity.y);
+        // transform.Translate(moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
 
+    protected override void moveLeft()
+    {
+        rigidBody.linearVelocity = new Vector2(-moveSpeed, rigidBody.linearVelocity.y);
+        //transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
+    }
     bool SeePlayer()
     {
         Vector2 direction = (player.position.x >= transform.position.x) ? Vector2.right : Vector2.left;
@@ -122,56 +114,10 @@ public class BearEnemy : MonoBehaviour
         float playerFootY = playerV.min.y;
 
         float diff = playerFootY - bearTopY;
-        float allowed = bear.size.y*5.0f;
+        float allowed = bear.size.y * 5.0f;
 
 
         return diff > allowed;
-    }
-
-    void Flip()
-    {
-        isFacingRight = !isFacingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x = theScale.x * -1;
-        transform.localScale = theScale;
-    }
-
-    void moveRight()
-    {
-        rigidBody.linearVelocity = new Vector2(moveSpeed, rigidBody.linearVelocity.y);
-        //transform.Translate(moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
-    }
-
-    void moveLeft()
-    {
-        rigidBody.linearVelocity = new Vector2(-moveSpeed, rigidBody.linearVelocity.y);
-        //transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
-    }
-    IEnumerator KillOnAnimationEnd()
-    {
-        /* yield return new WaitForSecond(time_in_seconds);*/
-        yield return new WaitForSeconds(0.0f);
-        gameObject.SetActive(false);
-    }
-    void OnTriggerEnter2D(Collider2D col)
-    {
-
-        if (col.CompareTag("Player"))
-        {
-            if (this.transform.position.y < col.gameObject.transform.position.y)
-            {
-                killed = true;
-                GetComponent<Collider2D>().enabled = false;
-                animator.SetBool("isDead", true);
-                StartCoroutine(KillOnAnimationEnd());
-                GameManager.instance.AddenemiesKill(1);
-            }
-            else
-            {
-                PlayerController player = col.gameObject.GetComponent<PlayerController>();
-                player.Die();
-            }
-        }
     }
 
     void FollowPlayer()
@@ -182,7 +128,7 @@ public class BearEnemy : MonoBehaviour
             if (!isFacingRight)
             {
                 Flip();
-                
+
             }
             isMovingRight = true;
             moveRight();
@@ -192,7 +138,7 @@ public class BearEnemy : MonoBehaviour
             if (isFacingRight)
             {
                 Flip();
-                
+
             }
             isMovingRight = false;
             moveLeft();
@@ -211,7 +157,7 @@ public class BearEnemy : MonoBehaviour
         }
         else
         {
-            x= bounds.min.x;
+            x = bounds.min.x;
         }
 
         Vector2 hitWall = new Vector2(x, bounds.center.y);
@@ -272,4 +218,9 @@ public class BearEnemy : MonoBehaviour
             }
         }
     }
+
+    protected override void Die()
+    {
+        base.Die();
     }
+}
