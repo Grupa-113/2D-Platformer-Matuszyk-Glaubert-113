@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour
 
     public void OnRetartButtonClicked()
     {
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -156,8 +155,13 @@ public class GameManager : MonoBehaviour
     public void SetVolume(float vol)
     {
         AudioListener.volume = vol;
-        int volumePercentage = Mathf.RoundToInt(vol * 100);
-        volumeLabel.text = volumePercentage.ToString() + "%";
+
+        if (volumeLabel != null)
+        {
+            int volumePercentage = Mathf.RoundToInt(vol * 100);
+            volumeLabel.text = volumePercentage.ToString() + "%";
+        }
+        
     }
 
     void SetGameState(GameState newGameState)
