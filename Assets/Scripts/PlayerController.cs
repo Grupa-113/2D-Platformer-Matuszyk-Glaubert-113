@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wallJumpEffect;
     [SerializeField] private float offsetWallJumpEffect = 0.1f;
 
-
+    [SerializeField] private float bouncePower = 10.0f;
     private void Awake()
     {
         startPosition = transform.position;
@@ -333,4 +333,13 @@ public class PlayerController : MonoBehaviour
     {
         return isFacingRight;
     }
+
+    public void BounceFromEnemy()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0.0f);
+        rb.AddForce(Vector2.up * bouncePower, ForceMode2D.Impulse);
+       // animator.SetBool("isGrounded", false);
+    }
 }
+
+

@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     protected float startPositionX;
     protected bool killed = false;
 
+    [SerializeField] protected GameObject deathEffect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -96,6 +97,9 @@ public class EnemyController : MonoBehaviour
 
             if (this.transform.position.y < col.gameObject.transform.position.y)
             {
+                Debug.Log(col.gameObject.transform.position.y);
+                PlayerController player = col.gameObject.GetComponent<PlayerController>();
+                player.BounceFromEnemy();
                 Die();
             }
             else
@@ -107,9 +111,11 @@ public class EnemyController : MonoBehaviour
     }
     protected virtual void Die()
     {
+
         killed = true;
         GetComponent<Collider2D>().enabled = false;
-        animator.SetBool("isDead", true); // Domyœlna nazwa animacji
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        animator.SetBool("isDead", true); 
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
     }
