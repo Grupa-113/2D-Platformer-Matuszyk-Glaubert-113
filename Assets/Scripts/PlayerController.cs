@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject fallEffect;
     [SerializeField] private float offsetfallEffect = 0.1f;
     [SerializeField] private float minFallVelocity = -5f;
+    [SerializeField] private float minFallToShakeVelocity = -10f;
 
     [SerializeField] private GameObject wallJumpEffect;
     [SerializeField] private float offsetWallJumpEffect = 0.1f;
@@ -144,7 +145,16 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !wasGrounded && previousVelocityY < minFallVelocity)
         {
             Instantiate(fallEffect, new Vector3(transform.position.x, transform.position.y + offsetfallEffect, transform.position.z), Quaternion.identity);
+
         }
+
+        if (isGrounded && !wasGrounded && previousVelocityY < minFallToShakeVelocity)
+        {
+
+            float shakeIntensity = Mathf.Abs(previousVelocityY) * 0.002f;
+            CameraController.instance.StartShake(0.2f, shakeIntensity);
+        }
+
         wasGrounded = isGrounded;
         previousVelocityY = rb.linearVelocity.y;
 
@@ -339,6 +349,7 @@ public class PlayerController : MonoBehaviour
     //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, bouncePower);
     //    animator.SetBool("isGrounded", false);
     //}
+
 }
 
 
