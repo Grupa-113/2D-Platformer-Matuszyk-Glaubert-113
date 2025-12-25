@@ -26,6 +26,8 @@ public class BearEnemy : EnemyController
         base.Awake();
         coll = GetComponent<Collider2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        isMovingRight = transform.localScale.x > 0;
+        isFacingRight = isMovingRight;
     }
 
     // Update is called once per frame
@@ -148,7 +150,19 @@ public class BearEnemy : EnemyController
 
     private bool isWall()
     {
+       
         Bounds bounds = coll.bounds;
+        Vector2 direction;
+
+        if (isMovingRight)
+        {
+            direction = Vector2.right;
+        }
+        else
+        {
+            direction = Vector2.left;
+        }
+
         float x;
 
         if (isMovingRight)
@@ -161,27 +175,15 @@ public class BearEnemy : EnemyController
         }
 
         Vector2 hitWall = new Vector2(x, bounds.center.y);
-        Vector2 dir;
+        RaycastHit2D hit = Physics2D.Raycast(hitWall, direction, 0.1f, obstacleMask);
+        Debug.DrawRay(hitWall, direction * 0.1f, Color.red);
 
-        if (isMovingRight)
-        {
-            dir = Vector2.right;
-        }
-        else
-        {
-            dir = Vector2.left;
-        }
-
-        RaycastHit2D hit = Physics2D.Raycast(hitWall, dir, 0.1f, obstacleMask);
-
-
-        if (hit.collider == null)
+        if(hit.collider == null)
         {
             return false;
         }
 
-
-        return hit.collider.CompareTag("Platform");
+        return hit.collider.CompareTag("Platform") ;
     }
 
     void Moving()

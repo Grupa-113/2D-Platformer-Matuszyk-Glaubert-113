@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - deathEffect: {fileID: 2121780270685160242, guid: cb13ca8a975ed3d4db7268a7e5a0d6e4, type: 3}
+  - head: {fileID: 4977273412101451209, guid: d6224d73713c0b94690ce5b1b05165fb, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

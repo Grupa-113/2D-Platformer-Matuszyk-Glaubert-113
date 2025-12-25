@@ -334,12 +334,11 @@ public class PlayerController : MonoBehaviour
         return isFacingRight;
     }
 
-    public void BounceFromEnemy()
-    {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0.0f);
-        rb.AddForce(Vector2.up * bouncePower, ForceMode2D.Impulse);
-       // animator.SetBool("isGrounded", false);
-    }
+    //public void BounceFromEnemy()
+    //{
+    //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, bouncePower);
+    //    animator.SetBool("isGrounded", false);
+    //}
 }
 
 

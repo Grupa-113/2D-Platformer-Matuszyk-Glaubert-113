@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     protected bool killed = false;
 
     [SerializeField] protected GameObject deathEffect;
-
+    [SerializeField] protected Collider2D head;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -83,7 +83,7 @@ public class EnemyController : MonoBehaviour
     protected IEnumerator KillOnAnimationEnd()
     {
         /* yield return new WaitForSecond(time_in_seconds);*/
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         gameObject.SetActive(false);
     }
     protected virtual void OnTriggerEnter2D(Collider2D col)
@@ -95,11 +95,12 @@ public class EnemyController : MonoBehaviour
                 return;
             }
 
-            if (this.transform.position.y < col.gameObject.transform.position.y)
+            if (col.IsTouching(head))
             {
                 Debug.Log(col.gameObject.transform.position.y);
-                PlayerController player = col.gameObject.GetComponent<PlayerController>();
-                player.BounceFromEnemy();
+                //PlayerController player = col.gameObject.GetComponent<PlayerController>();
+                //player.BounceFromEnemy();
+
                 Die();
             }
             else
@@ -115,7 +116,7 @@ public class EnemyController : MonoBehaviour
         killed = true;
         GetComponent<Collider2D>().enabled = false;
         Instantiate(deathEffect, transform.position, Quaternion.identity);
-        animator.SetBool("isDead", true); 
+        //animator.SetBool("isDead", true); 
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
     }
