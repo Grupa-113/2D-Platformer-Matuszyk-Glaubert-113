@@ -192,7 +192,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -319,7 +319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3875992820893677366, guid: dae4a01851abae24f9be321f8e55dad0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 252
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8180799324433744617, guid: dae4a01851abae24f9be321f8e55dad0, type: 3}
       propertyPath: m_Pivot.x
