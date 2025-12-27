@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !wasGrounded && previousVelocityY < minFallToShakeVelocity)
         {
 
-            float shakeIntensity = Mathf.Abs(previousVelocityY) * 0.002f;
+            float shakeIntensity = Mathf.Abs(previousVelocityY) * 0.010f;
             CameraController.instance.StartShake(0.2f, shakeIntensity);
         }
 

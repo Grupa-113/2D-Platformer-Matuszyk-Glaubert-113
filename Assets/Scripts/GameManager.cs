@@ -3,10 +3,17 @@ using UnityEngine.UI;
 using System;
 using TMPro;
 using UnityEngine.SceneManagement;
-public enum GameState { GAME, PAUSE_MENU, LEVEL_COMPLETED, GS_OPTIONS }
+public enum GameState { GAME, PAUSE_MENU, LEVEL_COMPLETED, GS_OPTIONS, STOP }
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Canvas")]
+    public Canvas pauseMenuCanvas;
+    public Canvas GameCanvas;
+    public Canvas levelCompletedCanvas;
+    public Canvas optionsCanvas;
+
+
     //----game canvas 
     public TMP_Text scoreLabel;
     public TMP_Text timeLabel;
@@ -21,10 +28,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreComletedLabel;
     public TMP_Text highScoreLabel;
 
-    public Canvas pauseMenuCanvas;
-    public Canvas GameCanvas;
-    public Canvas levelCompletedCanvas;
-    public Canvas optionsCanvas;
+    
 
 
     private int livesNumber=3;
@@ -54,6 +58,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentGameState == GameState.STOP) {
+            return;
+        }
+
         if (currentGameState == GameState.GAME)
         {
             timer += Time.deltaTime;
