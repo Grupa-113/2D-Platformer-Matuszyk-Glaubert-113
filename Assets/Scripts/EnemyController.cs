@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using System.Xml.Linq;
+using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
@@ -16,15 +17,17 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] protected GameObject deathEffect;
     [SerializeField] protected Collider2D head;
+
+    [SerializeField] private float heightMarginToDead = 0.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     protected virtual void Awake()
     {
-        
+
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         startPositionX = this.transform.position.x;
@@ -33,7 +36,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (killed) {return;}
+        if (killed) { return; }
 
         if (isMovingRight)
         {
@@ -78,7 +81,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void moveLeft()
     {
-      transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
+        transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
     protected IEnumerator KillOnAnimationEnd()
     {
@@ -90,23 +93,23 @@ public class EnemyController : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            if (killed)
-            {
-                return;
-            }
+            if (killed) { return; }
+            ;
 
-            if (col.IsTouching(head))
-            {
-                Debug.Log(col.gameObject.transform.position.y);
-                //PlayerController player = col.gameObject.GetComponent<PlayerController>();
-                //player.BounceFromEnemy();
 
+            float playerBottom = col.bounds.min.y;
+            float enemyTop = GetComponent<Collider2D>().bounds.max.y;
+
+            if (playerBottom > enemyTop - heightMarginToDead)
+            {
+                Debug.Log("skakanko");
+                PlayerController player = col.GetComponent<PlayerController>();
+                player.BounceFromEnemy();
                 Die();
             }
             else
             {
-                PlayerController player = col.gameObject.GetComponent<PlayerController>();
-                player.Die();
+                col.GetComponent<PlayerController>().Die();
             }
         }
     }
@@ -119,5 +122,16 @@ public class EnemyController : MonoBehaviour
         //animator.SetBool("isDead", true); 
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
+    }
+
+    private void OnDrawGizmos()
+    {
+        float width = GetComponent<Collider2D>().bounds.size.x;
+        float topY = GetComponent<Collider2D>().bounds.max.y - heightMarginToDead;
+
+        Vector3 startPoint = new Vector3(transform.position.x - (width / 2), topY, transform.position.z);
+
+        Debug.DrawRay(startPoint, Vector3.right * width, Color.red);
+
     }
 }

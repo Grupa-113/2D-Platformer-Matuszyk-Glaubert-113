@@ -126,10 +126,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.63
+  moveRange: 2.35
+  deathEffect: {fileID: 8315270134860087835, guid: c19551b2f8137cf44a59eb57859b3d43, type: 3}
+  head: {fileID: 0}
+  heightMarginToDead: 0.05
   followSpeed: 1
   normalSpeed: 0.1
-  moveRange: 2.35
-  followRange: 50
+  followRange: 20
   player: {fileID: 0}
   obstacleMask:
     serializedVersion: 2

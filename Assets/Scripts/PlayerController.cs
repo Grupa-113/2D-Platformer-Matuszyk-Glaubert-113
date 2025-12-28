@@ -344,11 +344,11 @@ public class PlayerController : MonoBehaviour
         return isFacingRight;
     }
 
-    //public void BounceFromEnemy()
-    //{
-    //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, bouncePower);
-    //    animator.SetBool("isGrounded", false);
-    //}
+    public void BounceFromEnemy()
+    {
+        rb.linearVelocity = new Vector2 (rb.linearVelocityX,0);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
 
 }
 
