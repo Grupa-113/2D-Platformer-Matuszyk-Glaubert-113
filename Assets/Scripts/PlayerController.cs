@@ -283,10 +283,17 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.AddPoints(3);
             col.gameObject.SetActive(false);
         }
+
         if (col.CompareTag("Heart"))
         {
             col.gameObject.SetActive(false);
-            GameManager.instance.AddLives(1);
+            GameManager.instance.UpdateLives(1);
+        }
+
+        if (col.CompareTag("Key"))
+        {
+            col.gameObject.SetActive(false);
+            GameManager.instance.AddKeys();
         }
 
         if (col.CompareTag("Checkpoint")){
@@ -326,7 +333,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        GameManager.instance.AddLives(-1);
+        GameManager.instance.UpdateLives(-1);
 
         animator.SetBool("isDead", false);
 

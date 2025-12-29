@@ -12,6 +12,7 @@ TagManager:
   - Platform
   - Checkpoint
   - MovingPlatform
+  - Key
   layers:
   - Default
   - TransparentFX

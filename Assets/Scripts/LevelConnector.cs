@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Linq;
 
 public class LevelConnector : MonoBehaviour
 {
@@ -10,13 +11,14 @@ public class LevelConnector : MonoBehaviour
     public Canvas scenePauseCanvas;
     public Canvas sceneLevelCompletedCanvas;
     public Canvas sceneOptionsCanvas;
-
+    public Canvas sceneGameOverCanvas;
 
     //---------------------------------GAME CANVAS 
     [Header("GAME UI")]
     public TMP_Text sceneScoreLabel;
     public TMP_Text sceneTimeLabel;
     public Transform heartsContainer;
+    public Image[] keysTab;
     public TMP_Text sceneEnemyLabel;
 
     //---------------------------------PAUSE CANVAS 
@@ -38,8 +40,11 @@ public class LevelConnector : MonoBehaviour
     public TMP_Text quality;
     public TMP_Text volume;
 
+    [Header("GAMEOVER UI")]
+    public Button restartButton_gameOver;
+    public Button menuButton_gameOver;
 
-    
+
     void Start()
     {
 
@@ -51,6 +56,7 @@ public class LevelConnector : MonoBehaviour
             bindPauseUI(gm);
             bindGameUI(gm);
             bindOptionsUI(gm);
+            bindGameOverUI(gm);
 
             gm.InGame();
             gm.DisplayGameParams();
@@ -73,6 +79,7 @@ public class LevelConnector : MonoBehaviour
         if (scenePauseCanvas != null) gm.pauseMenuCanvas = scenePauseCanvas;
         if (sceneLevelCompletedCanvas != null) gm.levelCompletedCanvas = sceneLevelCompletedCanvas;
         if (sceneOptionsCanvas != null) gm.optionsCanvas = sceneOptionsCanvas;
+        if (sceneGameOverCanvas != null) gm.GameOverCanvas = sceneGameOverCanvas;
     }
 
     void bindPauseUI(GameManager gm)
@@ -94,6 +101,11 @@ public class LevelConnector : MonoBehaviour
         gm.timeLabel = sceneTimeLabel;
         gm.enemyLabel = sceneEnemyLabel;
 
+
+        gm.keysTab[0] = this.keysTab[0];
+        gm.keysTab[1] = this.keysTab[1];
+        gm.keysTab[2] = this.keysTab[2];
+
     }
 
     void bindOptionsUI(GameManager gm)
@@ -111,5 +123,10 @@ public class LevelConnector : MonoBehaviour
         if (volume != null) gm.volumeLabel = volume;
     }
 
+    void bindGameOverUI(GameManager gm)
+    {
+        bindButton(restartButton_gameOver, gm.OnRestartButtonClicked);
+        bindButton(menuButton_gameOver, gm.OnRetunrToMainMenuButtonClicked);
+    }
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class GeneratedPlatforms : MonoBehaviour
 {
     [SerializeField] private GameObject platformPrefab;
-    const int PLATFORMS_NUM = 10;
+    [SerializeField] private int PLATFORMS_NUM = 10;
 
     GameObject[] platforms;
     Vector3[] positions;

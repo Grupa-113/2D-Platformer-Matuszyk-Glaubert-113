@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public enum GameState { GAME, PAUSE_MENU, LEVEL_COMPLETED, GS_OPTIONS, STOP }
+public enum GameState { GAME, PAUSE_MENU, LEVEL_COMPLETED, GS_OPTIONS, STOP, GAMEOVER }
 
 
 
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Canvas GameCanvas;
     public Canvas levelCompletedCanvas;
     public Canvas optionsCanvas;
+    public Canvas GameOverCanvas;
 
 
     //----game canvas 
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    private int livesNumber=3;
+    [SerializeField] private int livesNumber=3;
     private float timer = 0;
     private int enemyNumber = 0;
     private int score = 0;
@@ -89,7 +90,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
         if (instance == null)
         {
             instance = this;
@@ -100,22 +100,18 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        RestartGameParams();
     }
 
 
     public void OnRestartButtonClicked()
     {
-        livesNumber = DefaultLivesNumber;
-        score = 0; 
-        enemyNumber = 0;
-        timer = 0;
-
+        RestartGameParams();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void OnRetunrToMainMenuButtonClicked()
     {
- 
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -146,7 +142,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        SetGameState(GameState.PAUSE_MENU);
+        SetGameState(GameState.GAMEOVER);
     }
 
 
@@ -194,8 +190,9 @@ public class GameManager : MonoBehaviour
         optionsCanvas.enabled = (currentGameState == GameState.GS_OPTIONS);
         pauseMenuCanvas.enabled = (currentGameState == GameState.PAUSE_MENU);
         levelCompletedCanvas.enabled = (currentGameState == GameState.LEVEL_COMPLETED);
+        GameOverCanvas.enabled = (currentGameState == GameState.GAMEOVER);
 
-        if (optionsCanvas.enabled || pauseMenuCanvas.enabled)
+        if (optionsCanvas.enabled || pauseMenuCanvas.enabled || GameOverCanvas.enabled)
         {
             Time.timeScale = 0.0f;
         }
@@ -241,10 +238,18 @@ public class GameManager : MonoBehaviour
         this.enemyNumber += enemy;
         enemyLabel.text = enemyNumber.ToString();
     }
-    public void AddLives(int lives)
+    public void UpdateLives(int lives)
     {
         this.livesNumber += lives;
+
         UpdateHeartsUI();
+
+        if (livesNumber <= 0)
+        {
+            GameOver();
+        }
+
+        
     }
 
     public void AddKeys()
@@ -266,9 +271,22 @@ public class GameManager : MonoBehaviour
         if (enemyLabel != null) enemyLabel.text = enemyNumber.ToString();
         UpdateHeartsUI();
     }
+    public void RestartGameParams()
+    {
+        livesNumber = DefaultLivesNumber;
+        score = 0;
+        enemyNumber = 0;
+        timer = 0;
+        keysFound = 0;
+        keysCompleted = false;
+        UpdateHeartsUI();
+    }
 
     public void UpdateHeartsUI()
     {
+        if (heartsContainer == null) return;
+
+
         foreach (GameObject heart in heartIcons)
         {
             Destroy(heart);
