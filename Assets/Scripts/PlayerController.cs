@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float bouncePower = 10.0f;
 
+    [SerializeField] private float shakeDuration = 0.2f;
+    [SerializeField] private float shakeMagnitude = 0.01f;
 
     private void Awake()
     {
@@ -156,8 +158,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !wasGrounded && previousVelocityY < minFallToShakeVelocity)
         {
 
-            float shakeIntensity = Mathf.Abs(previousVelocityY) * 0.010f;
-            CameraController.instance.StartShake(0.2f, shakeIntensity);
+            float shakeIntensity = Mathf.Abs(previousVelocityY) * shakeMagnitude;
+            CameraController.instance.StartShake(shakeDuration, shakeIntensity);
         }
 
         wasGrounded = isGrounded;
