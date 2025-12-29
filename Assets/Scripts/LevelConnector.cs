@@ -16,7 +16,7 @@ public class LevelConnector : MonoBehaviour
     [Header("GAME UI")]
     public TMP_Text sceneScoreLabel;
     public TMP_Text sceneTimeLabel;
-    public TMP_Text sceneLivesLabel;
+    public Transform heartsContainer;
     public TMP_Text sceneEnemyLabel;
 
     //---------------------------------PAUSE CANVAS 
@@ -53,6 +53,7 @@ public class LevelConnector : MonoBehaviour
             bindOptionsUI(gm);
 
             gm.InGame();
+            gm.DisplayGameParams();
         }
         else
         {
@@ -78,7 +79,7 @@ public class LevelConnector : MonoBehaviour
     {
         bindButton(resumeButton, gm.OnResumeButtonClicked);
 
-        bindButton(restartButton, gm.OnRetartButtonClicked);
+        bindButton(restartButton, gm.OnRestartButtonClicked);
 
         bindButton(menuButton, gm.OnRetunrToMainMenuButtonClicked);
 
@@ -87,9 +88,10 @@ public class LevelConnector : MonoBehaviour
 
     void bindGameUI(GameManager gm)
     {
+        gm.UpdateHeartsUI();
+        gm.heartsContainer = this.heartsContainer;
         gm.scoreLabel = sceneScoreLabel;
         gm.timeLabel = sceneTimeLabel;
-        gm.livesLabel = sceneLivesLabel;
         gm.enemyLabel = sceneEnemyLabel;
 
     }

@@ -1,12 +1,17 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public enum GameState { GAME, PAUSE_MENU, LEVEL_COMPLETED, GS_OPTIONS, STOP }
+
+
+
 
 public class GameManager : MonoBehaviour
 {
+
     [Header("Canvas")]
     public Canvas pauseMenuCanvas;
     public Canvas GameCanvas;
@@ -17,8 +22,12 @@ public class GameManager : MonoBehaviour
     //----game canvas 
     public TMP_Text scoreLabel;
     public TMP_Text timeLabel;
-    public TMP_Text livesLabel; 
     public TMP_Text enemyLabel;
+
+    public GameObject heartPrefab;   
+    public Transform heartsContainer;
+    private List<GameObject> heartIcons = new List<GameObject>();
+
 
     //----options 
     public TMP_Text qualityLabel;
@@ -28,34 +37,30 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreComletedLabel;
     public TMP_Text highScoreLabel;
 
-    
+    [Space]
+
+    public GameState currentGameState = GameState.GAME;
+    public static GameManager instance;
+
+    private const int DefaultLivesNumber = 5;
+
 
 
     private int livesNumber=3;
-    float timer = 0;
-    public int enemyNumber = 0;
-    public GameState currentGameState = GameState.GAME;
-    public static GameManager instance;
-    [SerializeField] private int score = 0;
-
-    public Vector3 lastCheckPointPos = Vector3.zero;
+    private float timer = 0;
+    private int enemyNumber = 0;
+    private int score = 0;
 
 
+    [Space]
     //--------------keys
     private int keysFound = 0;
-    public const int maxKeysNumber = 3;
-    public bool keysCompleted = false;
+    private const int maxKeysNumber = 3;
+    private bool keysCompleted = false;
     public Image[] keysTab;
     const string keyHighScore = "HighScoreLevel1;";
     //--------------keys
 
-
-    void Start()
-    {
-     
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (currentGameState == GameState.STOP) {
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
         if (instance == null)
         {
             instance = this;
@@ -97,8 +103,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void OnRetartButtonClicked()
+    public void OnRestartButtonClicked()
     {
+        livesNumber = DefaultLivesNumber;
+        score = 0; 
+        enemyNumber = 0;
+        timer = 0;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -233,7 +244,7 @@ public class GameManager : MonoBehaviour
     public void AddLives(int lives)
     {
         this.livesNumber += lives;
-        livesLabel.text = livesNumber.ToString();
+        UpdateHeartsUI();
     }
 
     public void AddKeys()
@@ -249,12 +260,26 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    //private void ResetGameParams()
-    //{
-    //    InGame();
-    //    if (scoreLabel != null) scoreLabel.text = score.ToString();
-    //    if (enemyLabel != null) enemyLabel.text = enemyNumber.ToString();
-    //    if (livesLabel != null) livesLabel.text = livesNumber.ToString();
-    //}
+    public void DisplayGameParams()
+    {
+        if (scoreLabel != null) scoreLabel.text = score.ToString();
+        if (enemyLabel != null) enemyLabel.text = enemyNumber.ToString();
+        UpdateHeartsUI();
+    }
+
+    public void UpdateHeartsUI()
+    {
+        foreach (GameObject heart in heartIcons)
+        {
+            Destroy(heart);
+        }
+        heartIcons.Clear();
+
+        for (int i = 0; i < livesNumber; i++)
+        {
+            GameObject newHeart = Instantiate(heartPrefab, heartsContainer);
+            heartIcons.Add(newHeart);
+        }
+    }
 
 }

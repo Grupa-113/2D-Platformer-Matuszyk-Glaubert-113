@@ -102,7 +102,6 @@ public class EnemyController : MonoBehaviour
 
             if (playerBottom > enemyTop - heightMarginToDead)
             {
-                Debug.Log("skakanko");
                 PlayerController player = col.GetComponent<PlayerController>();
                 player.BounceFromEnemy();
                 Die();

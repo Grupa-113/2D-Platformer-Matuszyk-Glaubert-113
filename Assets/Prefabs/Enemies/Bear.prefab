@@ -129,7 +129,7 @@ MonoBehaviour:
   moveRange: 2.35
   deathEffect: {fileID: 8315270134860087835, guid: c19551b2f8137cf44a59eb57859b3d43, type: 3}
   head: {fileID: 0}
-  heightMarginToDead: 0.05
+  heightMarginToDead: 0.12
   followSpeed: 1
   normalSpeed: 0.1
   followRange: 20

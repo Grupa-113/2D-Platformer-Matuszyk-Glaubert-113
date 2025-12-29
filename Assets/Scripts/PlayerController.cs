@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float offsetWallJumpEffect = 0.1f;
 
     [SerializeField] private float bouncePower = 10.0f;
+
+
     private void Awake()
     {
         startPosition = transform.position;
@@ -118,6 +120,9 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.currentGameState == GameState.GAME && !stopPlayer)
         {
+            //ruch platformy na której jest gracz  
+ 
+
             if (isWallSliding && !isWallJumping)//slizganie po scianie 
             {
                 //jesli sie slizgamy po lewej scianie nie mozemy robic ruchu w lewo itd 
@@ -290,14 +295,20 @@ public class PlayerController : MonoBehaviour
 
         if (col.CompareTag("MovingPlatform"))
         {
-            transform.SetParent(col.transform);
+            if (col.gameObject.activeInHierarchy)
+            {
+                transform.SetParent(col.transform);
+            }
         }
     }
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.CompareTag("MovingPlatform"))
         {
-            transform.SetParent(null);
+            if (col.gameObject.activeInHierarchy)
+            {
+                transform.SetParent(null);
+            }
         }
     }
 
