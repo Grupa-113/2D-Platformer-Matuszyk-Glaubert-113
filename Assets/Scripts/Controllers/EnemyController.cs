@@ -19,6 +19,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected Collider2D head;
 
     [SerializeField] private float heightMarginToDead = 0.5f;
+
+    [SerializeField] private float hitCooldown = 0.5f;
+    private float nextHitTime = 0.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -108,6 +111,12 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
+                if (Time.time < nextHitTime)
+                {
+                    return;
+                }
+                nextHitTime = Time.time + hitCooldown;
+
                 col.GetComponent<PlayerController>().Die();
             }
         }
