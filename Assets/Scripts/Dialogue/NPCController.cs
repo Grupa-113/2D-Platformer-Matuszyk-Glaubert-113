@@ -3,11 +3,14 @@ using UnityEngine;
 public class NPCController : MonoBehaviour
 {
     
-    public DialogueLine[] dialogueLines; 
+    public DialogueLine[] mainDialogue;
+    [SerializeField] private bool useEndDialogue;
+    public DialogueLine[] endDialogue;
 
     private bool isPlayerClose = false;
     private bool possibleTalk = false;
     private bool whiletalk = false;
+    private bool talkInPast = false; 
 
     private DialogueManager dialogueManager;
     
@@ -31,7 +34,12 @@ public class NPCController : MonoBehaviour
         {
             if (!dialogueManager.dialogueBox.activeInHierarchy)
             {
-                dialogueManager.StartDialogue(dialogueLines,transform);
+                DialogueLine[] dialogue;
+
+                dialogue = (talkInPast) ? endDialogue : mainDialogue;
+                talkInPast = (useEndDialogue) ? true : false ;
+
+                dialogueManager.StartDialogue(dialogue, transform);
             }
         }
         if(possibleTalk && isPlayerClose && !whiletalk)

@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private float lastJumpTime; 
     private float jumpCooldown = 0.3f;
 
+    private bool whileDie = false;
+
     //WALL JUMP 
     [Header("Wall Jump System")]
     [SerializeField] private float wallSlidingSpeed = 2f; 
@@ -325,10 +327,11 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        StartCoroutine(KillOnAnimationEnd());
+        if (!whileDie)  StartCoroutine(KillOnAnimationEnd());
     }
     IEnumerator KillOnAnimationEnd()
     {
+        whileDie = true;
         animator.SetBool("isDead", true);
 
         rb.bodyType = RigidbodyType2D.Static;
@@ -341,8 +344,11 @@ public class PlayerController : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
 
-        transform.position = startPosition;
-
+        if (GameManager.instance.livesNumber != 0)
+        {
+            transform.position = startPosition;
+        }
+        whileDie = false;
 
     }
 

@@ -10,9 +10,10 @@ public class long_spikes : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField] private float UPDuration = 0.4f; 
-    [SerializeField] private float DOWNDuration = 0.4f; 
+    [SerializeField] private float DOWNDuration = 0.4f;
 
     [Header("Particles")]
+    [SerializeField] private bool useParticle = true;
     [SerializeField] private GameObject drillEfect;
     [SerializeField] private float offsetdrillEfect = 0.1f;
 
@@ -38,9 +39,12 @@ public class long_spikes : MonoBehaviour
 
 
             yield return new WaitForSeconds(timeDown);
-            anim.SetBool("DoUp", true); 
-            Instantiate(drillEfect, new Vector3(transform.position.x, transform.position.y + offsetdrillEfect, transform.position.z), Quaternion.identity);
+            anim.SetBool("DoUp", true);
 
+            if (useParticle && drillEfect != null)
+            {
+                Instantiate(drillEfect, new Vector3(transform.position.x, transform.position.y + offsetdrillEfect, transform.position.z), Quaternion.identity);
+            }
 
 
             yield return new WaitForSeconds(UPDuration * 0.5f);

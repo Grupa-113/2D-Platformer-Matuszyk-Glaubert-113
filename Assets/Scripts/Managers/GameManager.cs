@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    [SerializeField] private int livesNumber=3;
+    public int livesNumber=5;
     private float timer = 0;
     private int enemyNumber = 0;
     private int score = 0;
