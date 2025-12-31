@@ -62,12 +62,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.2f;
     [SerializeField] private float shakeMagnitude = 0.01f;
 
+    // sounds
+    [SerializeField] private AudioClip coinSound;
+    [SerializeField] private AudioClip endSound;
+    [SerializeField] private AudioClip killedEnemy;
+    [SerializeField] private AudioClip heartSound;
+    [SerializeField] private AudioClip keySound;
+    [SerializeField] private AudioClip dieSound;
+    [SerializeField] private AudioClip checkPointSound;
+
+    // skok,ladowanie,wallJump
+    private AudioSource source;
     private void Awake()
     {
         startPosition = transform.position;
         rb =GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
+        source = GetComponent<AudioSource>();
     }
     void Start()
     {
@@ -286,22 +298,26 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.AddPoints(3);
             col.gameObject.SetActive(false);
+            source.PlayOneShot(coinSound, AudioListener.volume);
         }
 
         if (col.CompareTag("Heart"))
         {
             col.gameObject.SetActive(false);
             GameManager.instance.UpdateLives(1);
+            source.PlayOneShot(heartSound, AudioListener.volume);
         }
 
         if (col.CompareTag("Key"))
         {
             col.gameObject.SetActive(false);
             GameManager.instance.AddKeys();
+            source.PlayOneShot(keySound, AudioListener.volume);
         }
 
         if (col.CompareTag("Checkpoint")){
             startPosition = new Vector2(col.transform.position.x,col.transform.position.y+0.3f);
+            source.PlayOneShot(checkPointSound, AudioListener.volume);
         }
 
         if (col.CompareTag("MovingPlatform"))
@@ -327,7 +343,11 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        if (!whileDie)  StartCoroutine(KillOnAnimationEnd());
+        if (!whileDie)
+        {
+            source.PlayOneShot(dieSound, AudioListener.volume);
+            StartCoroutine(KillOnAnimationEnd());
+        };
     }
     IEnumerator KillOnAnimationEnd()
     {
