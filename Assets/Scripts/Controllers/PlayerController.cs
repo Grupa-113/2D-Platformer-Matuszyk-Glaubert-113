@@ -71,6 +71,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip dieSound;
     [SerializeField] private AudioClip checkPointSound;
 
+    [SerializeField] private AudioClip jump;
+    [SerializeField] private AudioClip landing;
+    [SerializeField] private AudioClip lvlCompleted; 
+    [SerializeField] private AudioClip gameOver;
     // skok,ladowanie,wallJump
     private AudioSource source;
     private void Awake()

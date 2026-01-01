@@ -32,9 +32,6 @@ public class GameManager : MonoBehaviour
 
     //----options 
     public TMP_Text qualityLabel;
-    public TMP_Text volumeLabel;
-
-    public TMP_Text soundLabel;
 
     //----level_completed 
     public TMP_Text scoreComletedLabel;
@@ -164,32 +161,6 @@ public class GameManager : MonoBehaviour
     {
         QualitySettings.DecreaseLevel();
         qualityLabel.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
-    }
-
-    //---------------------OPTIONS
-
-    public void SetSound(float vol)
-    {
-        AudioListener.volume = vol;
-
-        if (soundLabel != null)
-        {
-            int soundPercentage = Mathf.RoundToInt(vol * 100);
-            soundLabel.text = soundPercentage.ToString() + "%";
-        }
-
-    }
-
-    public void SetVolume(float vol)
-    {
-        AudioListener.volume = vol;
-
-        if (volumeLabel != null)
-        {
-            int volumePercentage = Mathf.RoundToInt(vol * 100);
-            volumeLabel.text = volumePercentage.ToString() + "%";
-        }
-        
     }
 
     void SetGameState(GameState newGameState)

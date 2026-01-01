@@ -117,10 +117,10 @@ public class LevelConnector : MonoBehaviour
         bindButton(menuButton_options, gm.PauseMenu);
 
         slider_volume_options.onValueChanged.RemoveAllListeners();
-        slider_volume_options.onValueChanged.AddListener(gm.SetVolume);
+        //slider_volume_options.onValueChanged.AddListener(gm.SetVolume);
 
         if (quality != null) gm.qualityLabel = quality;
-        if (volume != null) gm.volumeLabel = volume;
+        //if (volume != null) gm.volumeLabel = volume;
     }
 
     void bindGameOverUI(GameManager gm)
