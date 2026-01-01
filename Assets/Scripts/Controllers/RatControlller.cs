@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RatControlller : MonoBehaviour
+public class RatControlller : EnemyController
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -8,9 +8,23 @@ public class RatControlller : MonoBehaviour
         
     }
 
+    protected override void Awake()
+    {
+
+    }
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         
+    }
+
+    protected override void moveLeft()
+    {
+
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D col)
+    {
+        base.OnTriggerEnter2D(col);
     }
 }
