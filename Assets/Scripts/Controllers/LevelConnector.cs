@@ -44,6 +44,12 @@ public class LevelConnector : MonoBehaviour
     public Button restartButton_gameOver;
     public Button menuButton_gameOver;
 
+    [Header("WIN UI")]
+    public Button restartButton_win;
+    public Button menuButton_win;
+    public TMP_Text score_win;
+    public TMP_Text highscore_win;
+
 
     void Start()
     {
@@ -57,6 +63,7 @@ public class LevelConnector : MonoBehaviour
             bindGameUI(gm);
             bindOptionsUI(gm);
             bindGameOverUI(gm);
+            bindWinUI(gm);
 
             gm.InGame();
             gm.DisplayGameParams();
@@ -129,4 +136,11 @@ public class LevelConnector : MonoBehaviour
         bindButton(menuButton_gameOver, gm.OnRetunrToMainMenuButtonClicked);
     }
 
+    void bindWinUI(GameManager gm)
+    {
+        bindButton(restartButton_win, gm.OnRestartButtonClicked);
+        bindButton(menuButton_win, gm.OnRetunrToMainMenuButtonClicked);
+        gm.scoreComletedLabel = score_win;
+        gm.highScoreLabel = highscore_win;
+    }
 }

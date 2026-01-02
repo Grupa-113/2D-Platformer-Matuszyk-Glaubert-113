@@ -173,10 +173,15 @@ public class GameManager : MonoBehaviour
 
         optionsCanvas.enabled = (currentGameState == GameState.GS_OPTIONS);
         pauseMenuCanvas.enabled = (currentGameState == GameState.PAUSE_MENU);
-        levelCompletedCanvas.enabled = (currentGameState == GameState.LEVEL_COMPLETED);
         GameOverCanvas.enabled = (currentGameState == GameState.GAMEOVER);
+        levelCompletedCanvas.enabled = (currentGameState == GameState.LEVEL_COMPLETED && keysFound == maxKeysNumber);
 
-        if (optionsCanvas.enabled || pauseMenuCanvas.enabled || GameOverCanvas.enabled)
+        if(currentGameState == GameState.LEVEL_COMPLETED && levelCompletedCanvas.enabled == false)
+        {
+            InGame();
+        }
+
+        if (optionsCanvas.enabled || pauseMenuCanvas.enabled || GameOverCanvas.enabled || levelCompletedCanvas.enabled)
         {
             Time.timeScale = 0.0f;
         }
@@ -188,17 +193,16 @@ public class GameManager : MonoBehaviour
         //----levelCompleted
         if (levelCompletedCanvas.enabled)
         {
+
             int highScore = 0;
 
-            if (SceneManager.GetActiveScene().name == "Level 1")
-            {
+            
                 highScore = PlayerPrefs.GetInt(keyHighScore);
                 if (highScore < score)
                 {
                     highScore = score;
                     PlayerPrefs.SetInt(keyHighScore, highScore);
                 }
-            }
             scoreComletedLabel.text = "Your score " + score.ToString();
             highScoreLabel.text = "The best score " + highScore.ToString();
 

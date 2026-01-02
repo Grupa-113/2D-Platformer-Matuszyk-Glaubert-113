@@ -28,7 +28,7 @@ public class FallingTrap : MonoBehaviour
 
     void Update()
     {
-        if (falling) return;
+        if (falled) return;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, detectionDistance, playerLayer);
         if (hit.collider != null)
         {
