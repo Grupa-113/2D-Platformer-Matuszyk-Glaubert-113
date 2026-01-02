@@ -1,6 +1,8 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
- 
+using UnityEngine.Tilemaps;
+
 public class FallingPlatform : MonoBehaviour
 {
     [SerializeField] private float delayToFallDown = 1.0f;
@@ -11,11 +13,25 @@ public class FallingPlatform : MonoBehaviour
 
     [SerializeField] private float shakeDuration = 0.8f; // czas trzesienia krotszy niz spadanie w dol
     [SerializeField] private float shakeMagnitude = 0.01f;
-   
-    
+    [SerializeField] private float margin = 0.2f;
+
+    [SerializeField] private bool respawn= true;
+    [SerializeField] private float respawnDiffTime = 5.0f;
+
+    [SerializeField] private Vector3 startPos;
+    private Collider2D col;
+    private TilemapRenderer tilemapRenderer;
+
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
-
+        startPos= transform.position;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        col = GetComponent<Collider2D>();
+        tilemapRenderer = GetComponent<TilemapRenderer>();
     }
 
     // Update is called once per frame
@@ -52,16 +68,57 @@ public class FallingPlatform : MonoBehaviour
             yield return new WaitForSeconds(delayToFallDown);
         }
         
-    
         rb.bodyType = RigidbodyType2D.Dynamic;
-        Destroy(gameObject, delayToDestroy);
+
+        yield return new WaitForSeconds(delayToDestroy);
+
+        if (respawn)
+        {
+            yield return StartCoroutine(Respawn());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+            
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.transform.tag == "Player" && !falling)
         {
-            StartCoroutine(StartFalling());
+            float playerBottom = col.collider.bounds.min.y;
+            float platformTop = GetComponent<Collider2D>().bounds.max.y;
+
+            if (playerBottom >= platformTop - margin)
+            {
+                StartCoroutine(StartFalling());
+            }
+            
+        }
+    }
+
+    private IEnumerator Respawn()
+    {
+        col.enabled = false;
+        if (tilemapRenderer)
+        {
+            tilemapRenderer.enabled = false;
+        }
+
+        yield return new WaitForSeconds(respawnDiffTime);
+
+        transform.position = startPos;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+
+        falling = false;
+        col.enabled = true;
+
+        if (tilemapRenderer)
+        {
+            tilemapRenderer.enabled = true;
         }
     }
 

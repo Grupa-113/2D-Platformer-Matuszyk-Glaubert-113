@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      klatkafront_0: 4833629147241058701
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
