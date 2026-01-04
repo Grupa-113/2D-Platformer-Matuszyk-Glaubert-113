@@ -221,8 +221,8 @@ public class BearEnemy : EnemyController
         }
     }
 
-    //protected override void Die()
-    //{
-    //    base.Die();
-    //}
+    protected override void Die()
+    {
+        base.Die();
+    }
 }

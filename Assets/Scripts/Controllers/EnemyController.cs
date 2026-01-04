@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     protected bool isMovingRight = false;
 
     [Range(0.01f, 20.0f)][SerializeField] protected float moveSpeed = 2.0f;
+
     [SerializeField] protected float moveRange = 1.0f;
 
     protected Animator animator;
@@ -20,9 +21,8 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] protected float heightMarginToDead = 0.5f;
 
-    [SerializeField] protected float hitCooldown = 0.5f;
-    protected float nextHitTime = 0.0f;
-
+    [SerializeField] private float hitCooldown = 0.5f;
+    private float nextHitTime = 0.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

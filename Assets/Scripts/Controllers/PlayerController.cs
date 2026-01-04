@@ -395,9 +395,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void BounceFromEnemy()
-    {
+{
         rb.linearVelocity = new Vector2 (rb.linearVelocityX,0);
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);    
     }
 
 }
