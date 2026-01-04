@@ -18,10 +18,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected GameObject deathEffect;
     [SerializeField] protected Collider2D head;
 
-    [SerializeField] private float heightMarginToDead = 0.5f;
+    [SerializeField] protected float heightMarginToDead = 0.5f;
 
-    [SerializeField] private float hitCooldown = 0.5f;
-    private float nextHitTime = 0.0f;
+    [SerializeField] protected float hitCooldown = 0.5f;
+    protected float nextHitTime = 0.0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
