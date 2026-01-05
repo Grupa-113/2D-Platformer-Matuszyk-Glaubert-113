@@ -100,6 +100,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         RestartGameParams();
+        if (keysTab == null || keysTab.Length == 0)
+        {
+            keysTab = new Image[maxKeysNumber];
+        }
     }
 
 
@@ -153,14 +157,21 @@ public class GameManager : MonoBehaviour
     public void PlusButton()
     {
         QualitySettings.IncreaseLevel();
-
-        qualityLabel.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+        UpdateQualityLabel();
 
     }
     public void MinusButton()
     {
         QualitySettings.DecreaseLevel();
-        qualityLabel.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+        UpdateQualityLabel();
+    }
+
+    public void UpdateQualityLabel()
+    {
+        if (qualityLabel != null)
+        {
+            qualityLabel.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+        }
     }
 
     void SetGameState(GameState newGameState)

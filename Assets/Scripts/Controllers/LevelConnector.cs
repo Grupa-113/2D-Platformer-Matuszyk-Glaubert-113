@@ -20,6 +20,7 @@ public class LevelConnector : MonoBehaviour
     public Transform heartsContainer;
     public Image[] keysTab;
     public TMP_Text sceneEnemyLabel;
+    public GameObject heartPrefab;
 
     //---------------------------------PAUSE CANVAS 
     [Header("PAUSE UI")]
@@ -65,6 +66,9 @@ public class LevelConnector : MonoBehaviour
             bindGameOverUI(gm);
             bindWinUI(gm);
 
+
+            gm.UpdateQualityLabel();
+
             gm.InGame();
             gm.DisplayGameParams();
         }
@@ -107,11 +111,12 @@ public class LevelConnector : MonoBehaviour
         gm.scoreLabel = sceneScoreLabel;
         gm.timeLabel = sceneTimeLabel;
         gm.enemyLabel = sceneEnemyLabel;
+        gm.heartPrefab = this.heartPrefab;
 
-
-        gm.keysTab[0] = this.keysTab[0];
-        gm.keysTab[1] = this.keysTab[1];
-        gm.keysTab[2] = this.keysTab[2];
+        for (int i = 0; i < gm.keysTab.Length && i < this.keysTab.Length; i++)
+        {
+            gm.keysTab[i] = this.keysTab[i];
+        }
 
     }
 
