@@ -20,9 +20,31 @@ public class AudioController : MonoBehaviour
 
     private void Start()
     {
+        float savedMusic = PlayerPrefs.GetFloat(MUSICNAME, DEFAULT_VOL);
+        float savedSfx = PlayerPrefs.GetFloat(SFXNAME, DEFAULT_VOL);
+
+        musicSlider.value = savedMusic;
+        sfxSlider.value = savedSfx;
+
+        SetMusicVolume(savedMusic);
+        SetSfxVolume(savedSfx);
 
         musicSource.clip = background;
         musicSource.Play();
+    }
+
+    public void SetMusicVolume(float sliderValue)
+    {
+        float db = Mathf.Log10(Mathf.Max(sliderValue, MIN_VOL)) * 20f;
+        mixer.SetFloat(MUSICNAME, db);
+        PlayerPrefs.SetFloat(MUSICNAME, sliderValue);
+    }
+
+    public void SetSfxVolume(float sliderValue)
+    {
+        float db = Mathf.Log10(Mathf.Max(sliderValue, MIN_VOL)) * 20f;
+        mixer.SetFloat(SFXNAME, db);
+        PlayerPrefs.SetFloat(SFXNAME, sliderValue);
     }
 }
 

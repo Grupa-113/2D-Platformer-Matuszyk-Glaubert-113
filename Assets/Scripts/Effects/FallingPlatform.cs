@@ -5,18 +5,18 @@ using UnityEngine.Tilemaps;
 
 public class FallingPlatform : MonoBehaviour
 {
-    [SerializeField] private float delayToFallDown = 1.0f;
-    [SerializeField] private float delayToDestroy = 2.0f;
+    [SerializeField] private float delayToFallDown = 1.0f; // za ile zacznie spadaæ po wejsciu gracza
+    [SerializeField] private float delayToDestroy = 2.0f; // po jakim czasie znika
 
     private bool falling = false;
     [SerializeField] private Rigidbody2D rb;
 
-    [SerializeField] private float shakeDuration = 0.8f; // czas trzesienia krotszy niz spadanie w dol
-    [SerializeField] private float shakeMagnitude = 0.01f;
+    [SerializeField] private float shakeDuration = 0.8f; // jak d³ugo siie trzesie przed spadnieciem
+    [SerializeField] private float shakeMagnitude = 0.01f;  
     [SerializeField] private float margin = 0.2f;
 
     [SerializeField] private bool respawn= true;
-    [SerializeField] private float respawnDiffTime = 5.0f;
+    [SerializeField] private float respawnDiffTime = 5.0f; // kiedy ma nowo sie zrespic
 
     [SerializeField] private Vector3 startPos;
     private Collider2D col;

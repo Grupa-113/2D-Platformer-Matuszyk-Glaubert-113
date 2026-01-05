@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class RatControlller : EnemyController
 {
     [SerializeField] private Transform player;
@@ -11,11 +12,12 @@ public class RatControlller : EnemyController
     private Collider2D coll;
     private SpriteRenderer sprite;
 
+
     [SerializeField] private int cherriesToSteal = 10;
     private bool stolen = false;
     private int stolenCherries = 0;
 
-    [SerializeField] private float reachNestDistance = 0.25f;
+    [SerializeField] private float reachNestDistance = 0.001f;
     [SerializeField] private float cooldownSeconds = 20f;
     [Range(0.01f, 20.0f)][SerializeField] protected float returnSpeed = 2.0f;
     [Range(0.01f, 20.0f)][SerializeField] protected float normalSpeed = 1.0f;
@@ -34,6 +36,7 @@ public class RatControlller : EnemyController
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sprite = GetComponent<SpriteRenderer>();
 
+
         state = State.InNest;
         stolen = false;
         stolenCherries = 0;
@@ -42,7 +45,7 @@ public class RatControlller : EnemyController
 
     private bool ReachedHome()
     {
-        return Mathf.Abs(transform.position.x - startPositionX) <= reachNestDistance;
+        return Mathf.Abs(transform.position.x - startPositionX) < reachNestDistance;
     }
 
     // Update is called once per frame
@@ -58,6 +61,8 @@ public class RatControlller : EnemyController
         {
             case State.InNest:
                 // stoi w miejscu i czeka a¿ zobaczy gracza
+                animator.SetBool("isRunning", false);
+                //FaceRight();
                 if (SeePlayer())
                 {
                     state = State.Chasing;
@@ -65,22 +70,30 @@ public class RatControlller : EnemyController
                 break;
 
             case State.Chasing:
+                animator.SetBool("isRunning", true);
                 MoveToX(player.position.x);
                 break;
 
             case State.Returning:
                 MoveToX(startPositionX);
                 SetTargetSpeed(returnSpeed);
+                animator.SetBool("isRunning", true);
 
                 if (ReachedHome())
                 {
                     StartCoroutine(CooldownRoutine());
+                    animator.SetBool("isRunning", false);
+                    Flip();
+                    //FaceRight();
                     SetTargetSpeed(normalSpeed);
                 }
                 break;
 
             case State.Cooldown:
                 // nic
+
+                animator.SetBool("isRunning", false);
+                //FaceRight();
                 break;
         }
     }
@@ -174,5 +187,9 @@ public class RatControlller : EnemyController
     {
         moveSpeed = target;
     }
-
+    private void FaceRight()
+    {
+        if (!isFacingRight)  
+            Flip();           
+    }
 }
