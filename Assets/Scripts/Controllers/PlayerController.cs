@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private float jumpCooldown = 0.3f;
 
     private bool whileDie = false;
-
+    private bool checkpointActivated = false;
     //WALL JUMP 
     [Header("Wall Jump System")]
     [SerializeField] private float wallSlidingSpeed = 2f; 
@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("LevelExit")) { GameManager.instance.LevelCompleted(); }
+        if (col.CompareTag("LevelExit")) { GameManager.instance.CheckLevelCompleted(); }
 
         if (col.CompareTag("LevelFall")) { Die(); }
 
@@ -320,8 +320,15 @@ public class PlayerController : MonoBehaviour
         }
 
         if (col.CompareTag("Checkpoint")){
-            startPosition = new Vector2(col.transform.position.x,col.transform.position.y+0.3f);
-            source.PlayOneShot(checkPointSound, AudioListener.volume);
+            CheckPointFlag checkpointFlag = col.GetComponent<CheckPointFlag>();
+
+            if (checkpointFlag.turnedOn)
+            {
+                checkpointFlag.turnedOn = false;
+                startPosition = new Vector2(col.transform.position.x, col.transform.position.y + 0.3f);
+                source.PlayOneShot(checkPointSound, AudioListener.volume);
+            }
+            
         }
 
         if (col.CompareTag("MovingPlatform"))

@@ -23,6 +23,11 @@ public class RatControlller : EnemyController
     [Range(0.01f, 20.0f)][SerializeField] protected float normalSpeed = 1.0f;
     private enum State { InNest, Chasing, Returning, Cooldown }
     private State state = State.InNest;
+
+    [SerializeField] private AudioClip coinSound;
+    [SerializeField] private AudioClip stealcoinSound;
+    private AudioSource source;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,7 +40,7 @@ public class RatControlller : EnemyController
         coll = GetComponent<Collider2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sprite = GetComponent<SpriteRenderer>();
-
+        source = GetComponent<AudioSource>();
 
         state = State.InNest;
         stolen = false;
@@ -117,12 +122,12 @@ public class RatControlller : EnemyController
 
     protected override void moveLeft()
     {
-        Debug.Log("SZCZUR");
         transform.Translate(Vector3.left * moveSpeed * Time.deltaTime, Space.World);
     }
 
     protected override void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log("source is " + (source ? "OK" : "NULL"));
         if (col.CompareTag("Player"))
         {
             if (killed) { return; };
@@ -134,15 +139,17 @@ public class RatControlller : EnemyController
             {
                 PlayerController player = col.GetComponent<PlayerController>();
                 player.BounceFromEnemy();
-                Die();
+                
 
                 if (stolen && stolenCherries > 0)
                 {
                     int returnCherries = Mathf.Max(0, stolenCherries / 2);
+                    AudioSource.PlayClipAtPoint(coinSound, transform.position, 1f);
                     GameManager.instance.AddPoints(returnCherries);
+                    
                 }
+                Die();
 
-                
             }
             else
             {
@@ -150,6 +157,8 @@ public class RatControlller : EnemyController
                 stolenCherries += cherriesToSteal;
 
                 GameManager.instance.AddPoints(-cherriesToSteal);
+                source.PlayOneShot(stealcoinSound, AudioListener.volume);
+
                 state = State.Returning;
 
                 //col.GetComponent<PlayerController>().Die();

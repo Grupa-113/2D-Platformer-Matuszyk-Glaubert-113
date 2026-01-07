@@ -25,10 +25,14 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false; 
     private string currentSentence = "";
 
+    private bool ignoreEThisFrame = false;
+
 
     [Header("kamera zoom")]
     public UnityStandardAssets._2D.CameraFollow cameraScript;
 
+    [SerializeField] private AudioClip speakingSound;
+    private AudioSource source;
 
     void Start()
     {
@@ -38,17 +42,26 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<DialogueLine>();
         dialogueBox.SetActive(false);
 
+        source = GetComponent<AudioSource>();
+
     }
 
     void Update()
     {
-        
+
+        if (ignoreEThisFrame)
+        {
+            ignoreEThisFrame = false;
+            return;
+        }
+
         if (isDialogueActive && Input.GetKeyDown(KeyCode.E))
         {
             if (isTyping) //anulowanie efektu pisania 
             {
                 StopAllCoroutines();
                 textDisplay.text = currentSentence;
+                source.Stop();
                 isTyping = false;
             }
             else
@@ -72,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         {
             sentences.Enqueue(sentence);
         }
-
+        ignoreEThisFrame = true;
         DisplayNextSentence();
 
         controller.StopPlayer();
@@ -90,7 +103,7 @@ public class DialogueManager : MonoBehaviour
         nameDisplay.text = currentLine.speakerName;
 
 
-        textDisplay.text = currentLine.sentence;
+        //textDisplay.text = currentLine.sentence;
 
         currentSentence = currentLine.sentence;
 
@@ -122,7 +135,11 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeSentence(string sentence)
     {
         isTyping = true;
-        textDisplay.text = ""; 
+        textDisplay.text = "";
+
+        source.clip = speakingSound;
+        source.loop = true;
+        source.Play();
 
         foreach (char letter in sentence.ToCharArray())
         {
@@ -130,6 +147,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed); 
         }
 
+        source.Stop();
         isTyping = false; 
     }
 }

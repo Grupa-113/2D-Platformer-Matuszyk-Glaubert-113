@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
     public Image[] keysTab;
     const string keyHighScore = "HighScoreLevel1;";
     //--------------keys
+    [SerializeField] private AudioClip lvlCompletedSound;
+    [SerializeField] private AudioClip lvlNotCompletedSound;
+    private AudioSource source;
 
     void Update()
     {
@@ -104,6 +107,8 @@ public class GameManager : MonoBehaviour
         {
             keysTab = new Image[maxKeysNumber];
         }
+
+        source = GetComponent<AudioSource>();
     }
 
 
@@ -299,4 +304,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+  public void CheckLevelCompleted()
+    {
+        if (keysFound >= maxKeysNumber)
+        {
+            source.PlayOneShot(lvlCompletedSound, AudioListener.volume);
+            LevelCompleted();
+        }
+        else
+        {
+            source.PlayOneShot(lvlNotCompletedSound, AudioListener.volume);
+            // zostaje w grze
+        }
+    }
 }
