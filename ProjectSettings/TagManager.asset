@@ -69,6 +69,9 @@ TagManager:
   - name: Player and Enemies
     uniqueID: 2793087621
     locked: 0
+  - name: Effects
+    uniqueID: 3705124687
+    locked: 0
   - name: Foreground
     uniqueID: 3773975421
     locked: 0

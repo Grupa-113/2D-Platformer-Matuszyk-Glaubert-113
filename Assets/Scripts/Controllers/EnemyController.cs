@@ -128,7 +128,7 @@ public class EnemyController : MonoBehaviour
         killed = true;
         GetComponent<Collider2D>().enabled = false;
         Instantiate(deathEffect, transform.position, Quaternion.identity);
-        //animator.SetBool("isDead", true); 
+        animator.SetBool("isDead", true); 
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
     }

@@ -121,7 +121,7 @@ public class RatControlller : EnemyController
         transform.Translate(Vector3.left * moveSpeed * Time.deltaTime, Space.World);
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D col)
+    protected override void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
@@ -134,14 +134,15 @@ public class RatControlller : EnemyController
             {
                 PlayerController player = col.GetComponent<PlayerController>();
                 player.BounceFromEnemy();
+                Die();
 
-                if(stolen && stolenCherries > 0)
+                if (stolen && stolenCherries > 0)
                 {
                     int returnCherries = Mathf.Max(0, stolenCherries / 2);
                     GameManager.instance.AddPoints(returnCherries);
                 }
 
-                Die();
+                
             }
             else
             {
@@ -191,5 +192,10 @@ public class RatControlller : EnemyController
     {
         if (!isFacingRight)  
             Flip();           
+    }
+
+    protected override void Die()
+    {
+        base.Die();
     }
 }
