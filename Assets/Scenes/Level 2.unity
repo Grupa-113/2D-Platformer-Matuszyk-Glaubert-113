@@ -60905,11 +60905,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.06
+      value: 14.637
       objectReference: {fileID: 0}
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.37
+      value: -1.222
       objectReference: {fileID: 0}
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -212013,6 +212013,10 @@ PrefabInstance:
       propertyPath: coinSound
       value: 
       objectReference: {fileID: 8300000, guid: 2a71d8e8ea428e0409d3df636b9f0192, type: 3}
+    - target: {fileID: 487970401733289845, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: moveSpeed
+      value: 1.68
+      objectReference: {fileID: 0}
     - target: {fileID: 487970401733289845, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: normalSpeed
       value: 1.5

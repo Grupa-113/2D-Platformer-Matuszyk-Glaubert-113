@@ -5,34 +5,26 @@ using UnityEngine;
 public class RatControlller : EnemyController
 {
     [SerializeField] private Transform player;
-    [SerializeField] private Transform nest; // teraz: punkt startowy szczura (home)
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private LayerMask playerMask;
 
-    private Collider2D coll;
-    private SpriteRenderer sprite;
-
-
+   
     [SerializeField] private int cherriesToSteal = 10;
     private bool stolen = false;
     private int stolenCherries = 0;
 
     [SerializeField] private float reachNestDistance = 0.001f;
     [SerializeField] private float cooldownSeconds = 20f;
-    [Range(0.01f, 20.0f)][SerializeField] protected float returnSpeed = 2.0f;
-    [Range(0.01f, 20.0f)][SerializeField] protected float normalSpeed = 1.0f;
+
     private enum State { InNest, Chasing, Returning, Cooldown }
     private State state = State.InNest;
 
     [SerializeField] private AudioClip coinSound;
     [SerializeField] private AudioClip stealcoinSound;
+
     private AudioSource source;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
+    private Collider2D coll;
+    private SpriteRenderer sprite;
 
     protected override void Awake()
     {
@@ -48,26 +40,17 @@ public class RatControlller : EnemyController
 
     }
 
-    private bool ReachedHome()
-    {
-        return Mathf.Abs(transform.position.x - startPositionX) < reachNestDistance;
-    }
-
-    // Update is called once per frame
     protected override void Update()
     {
-        if (killed) { return; }
-
-        //porusza sie 
-        /*        moveLeft();
-                Debug.Log("SZCZUR IDZIE W LEWO");*/
+        if (killed) { 
+            return; 
+        }
 
         switch (state)
         {
             case State.InNest:
-                // stoi w miejscu i czeka a¿ zobaczy gracza
                 animator.SetBool("isRunning", false);
-                //FaceRight();
+
                 if (SeePlayer())
                 {
                     state = State.Chasing;
@@ -81,7 +64,6 @@ public class RatControlller : EnemyController
 
             case State.Returning:
                 MoveToX(startPositionX);
-                SetTargetSpeed(returnSpeed);
                 animator.SetBool("isRunning", true);
 
                 if (ReachedHome())
@@ -89,48 +71,27 @@ public class RatControlller : EnemyController
                     StartCoroutine(CooldownRoutine());
                     animator.SetBool("isRunning", false);
                     Flip();
-                    //FaceRight();
-                    SetTargetSpeed(normalSpeed);
                 }
                 break;
 
             case State.Cooldown:
-                // nic
-
                 animator.SetBool("isRunning", false);
-                //FaceRight();
                 break;
         }
     }
 
-    private IEnumerator CooldownRoutine()
+    private bool ReachedHome()
     {
-        state = State.Cooldown;
-        yield return new WaitForSeconds(cooldownSeconds);
-
-        // po 20s: jeœli nadal widzi gracza -> wychodzi od razu
-        if (SeePlayer())
-        {
-
-            state = State.Chasing;
-        }
-        else
-        {
-            state = State.InNest;
-        }
-    }
-
-    protected override void moveLeft()
-    {
-        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime, Space.World);
+        return Mathf.Abs(transform.position.x - startPositionX) < reachNestDistance;
     }
 
     protected override void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("source is " + (source ? "OK" : "NULL"));
         if (col.CompareTag("Player"))
         {
-            if (killed) { return; };
+            if (killed) { 
+                return; 
+            };
 
             float playerBottom = col.bounds.min.y;
             float enemyTop = GetComponent<Collider2D>().bounds.max.y;
@@ -139,20 +100,15 @@ public class RatControlller : EnemyController
             {
                 PlayerController player = col.GetComponent<PlayerController>();
                 player.BounceFromEnemy();
-                
 
                 if (stolen && stolenCherries > 0)
                 {
                     int returnCherries = Mathf.Max(0, stolenCherries / 2);
                     AudioSource.PlayClipAtPoint(coinSound, transform.position, 1f);
                     GameManager.instance.AddPoints(returnCherries);
-                    
                 }
                 Die();
-
-            }
-            else
-            {
+            }else{
                 stolen = true;
                 stolenCherries += cherriesToSteal;
 
@@ -161,9 +117,25 @@ public class RatControlller : EnemyController
 
                 state = State.Returning;
 
-                //col.GetComponent<PlayerController>().Die();
             }
         }
+    }
+
+    private IEnumerator CooldownRoutine()
+    {
+        state = State.Cooldown;
+        yield return new WaitForSeconds(cooldownSeconds);
+
+        if (SeePlayer()){
+            state = State.Chasing;
+        }else{ 
+            state = State.InNest;
+        }
+    }
+
+    protected override void moveLeft()
+    {
+        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime, Space.World);
     }
 
     private bool SeePlayer()
@@ -180,31 +152,36 @@ public class RatControlller : EnemyController
 
         return hit.collider != null;
     }
+
     private void MoveToX(float targetX)
     {
         if (targetX > transform.position.x)
         {
-            if (!isFacingRight) Flip();  // z EnemyController
-            moveRight();                  // z EnemyController
+
+            if (!isFacingRight)
+            {
+                Flip();
+            }
+            moveRight();
         }
         else
         {
-            if (isFacingRight) Flip();   // z EnemyController
-            moveLeft();                   // z EnemyController
+            if (isFacingRight)
+            {
+                Flip(); 
+            }
+            moveLeft();
         }
     }
-    private void SetTargetSpeed(float target)
-    {
-        moveSpeed = target;
-    }
+
+
     private void FaceRight()
     {
-        if (!isFacingRight)  
-            Flip();           
+        if (!isFacingRight)
+        {
+            Flip();
+        }
+                    
     }
 
-    protected override void Die()
-    {
-        base.Die();
-    }
-}
+} 

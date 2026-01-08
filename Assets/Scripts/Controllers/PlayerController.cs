@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;    
     private Collider2D coll;
- 
 
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wall_To_JumpLayer;
@@ -36,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private bool whileDie = false;
     private bool checkpointActivated = false;
+
     //WALL JUMP 
     [Header("Wall Jump System")]
     [SerializeField] private float wallSlidingSpeed = 2f; 
@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isWallSliding;
     private bool isWallJumping;
+
     //WALL JUMP 
     [Header("Particles")]
     [SerializeField] private GameObject jumpEffect;
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip gameOver;
     // skok,ladowanie,wallJump
     private AudioSource source;
+
     private void Awake()
     {
         startPosition = transform.position;
@@ -94,7 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.currentGameState == GameState.GAME && !animator.GetBool("isDead") && !stopPlayer)
         {
-
             HandleFallEfect();
 
            //inputy 
@@ -117,7 +118,6 @@ public class PlayerController : MonoBehaviour
                     Jump();
                 }
             }
-
             //odwracanie sprita gracza 
             if (!isWallJumping)
             {
@@ -125,14 +125,11 @@ public class PlayerController : MonoBehaviour
                 else if (horizontalInput < 0 && isFacingRight) Flip();
             }
 
-
-
             //kontrola animacji 
             isRunning = horizontalInput != 0;
             animator.SetBool("isGrounded", IsGrounded());
             animator.SetBool("isRunning", isRunning);
             animator.SetBool("isWallSliding", isWallSliding);
-
         }
     }
 
@@ -141,8 +138,6 @@ public class PlayerController : MonoBehaviour
         if (GameManager.instance.currentGameState == GameState.GAME && !stopPlayer)
         {
             //ruch platformy na której jest gracz  
- 
-
             if (isWallSliding && !isWallJumping)//slizganie po scianie 
             {
                 //jesli sie slizgamy po lewej scianie nie mozemy robic ruchu w lewo itd 
@@ -170,19 +165,15 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !wasGrounded && previousVelocityY < minFallVelocity)
         {
             Instantiate(fallEffect, new Vector3(transform.position.x, transform.position.y + offsetfallEffect, transform.position.z), Quaternion.identity);
-
         }
 
         if (isGrounded && !wasGrounded && previousVelocityY < minFallToShakeVelocity)
         {
-
             float shakeIntensity = Mathf.Abs(previousVelocityY) * shakeMagnitude;
             CameraController.instance.StartShake(shakeDuration, shakeIntensity);
         }
-
         wasGrounded = isGrounded;
         previousVelocityY = rb.linearVelocity.y;
-
     }
 
 
@@ -196,8 +187,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleWallSlide()
-    {
-        
+    { 
         bool isTouchingWall = IsTouchingWall();
         bool isGrounded = IsGrounded();
 
@@ -235,9 +225,7 @@ public class PlayerController : MonoBehaviour
             newScale.x *= -1; 
             particle.transform.localScale = newScale;
         }
-
         Flip();
-
         StartCoroutine(StopWallJumpAfterTime());
     }
 
@@ -246,9 +234,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(wallJumpDuration);
         isWallJumping = false;
     }
-
-
-
 
     bool IsGrounded()
     {
@@ -263,7 +248,6 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(new Vector3( xLeft,transform.position.y,transform.position.z), Vector2.down * rayLength, Color.green);
         RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(xRight, yPos), Vector2.down, rayLength, groundLayer.value);
         Debug.DrawRay(new Vector3(xRight, transform.position.y, transform.position.z), Vector2.down * rayLength, Color.green);
-
 
         return hitLeft.collider != null || hitRight.collider != null;
     }
@@ -294,9 +278,13 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("LevelExit")) { GameManager.instance.CheckLevelCompleted(); }
+        if (col.CompareTag("LevelExit")) { 
+            GameManager.instance.CheckLevelCompleted(); 
+        }
 
-        if (col.CompareTag("LevelFall")) { Die(); }
+        if (col.CompareTag("LevelFall")) { 
+            Die(); 
+        }
 
         if (col.CompareTag("Bonus"))
         {
@@ -328,7 +316,6 @@ public class PlayerController : MonoBehaviour
                 startPosition = new Vector2(col.transform.position.x, col.transform.position.y + 0.3f);
                 source.PlayOneShot(checkPointSound, AudioListener.volume);
             }
-            
         }
 
         if (col.CompareTag("MovingPlatform"))
@@ -380,7 +367,6 @@ public class PlayerController : MonoBehaviour
             transform.position = startPosition;
         }
         whileDie = false;
-
     }
 
 
@@ -402,11 +388,10 @@ public class PlayerController : MonoBehaviour
     }
 
     public void BounceFromEnemy()
-{
+    {
         rb.linearVelocity = new Vector2 (rb.linearVelocityX,0);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);    
     }
-
 }
 
 

@@ -17,13 +17,11 @@ public class EnemyController : MonoBehaviour
     protected bool killed = false;
 
     [SerializeField] protected GameObject deathEffect;
-    [SerializeField] protected Collider2D head;
 
     [SerializeField] protected float heightMarginToDead = 0.5f;
-
     [SerializeField] private float hitCooldown = 0.5f;
     private float nextHitTime = 0.0f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
 
@@ -31,39 +29,39 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Awake()
     {
-
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         startPositionX = this.transform.position.x;
     }
 
-    // Update is called once per frame
+
     protected virtual void Update()
     {
-        if (killed) { return; }
-
+        if (killed) { 
+            return; 
+        }
+        // w prawo
         if (isMovingRight)
         {
             if (this.transform.position.x < startPositionX + moveRange)
             {
-                //porusza sie 
                 moveRight();
             }
             else
             {
+                // zmiana w lewo
                 isMovingRight = false;
                 Flip();
             }
         }
-        else
+        else // ruch w lewo
         {
             if (this.transform.position.x > startPositionX - moveRange)
             {
-                //porusza sie 
                 moveLeft();
             }
             else
-            {
+            { // zmiana w prawo
                 isMovingRight = true;
                 Flip();
             }
@@ -89,7 +87,6 @@ public class EnemyController : MonoBehaviour
     }
     protected IEnumerator KillOnAnimationEnd()
     {
-        /* yield return new WaitForSecond(time_in_seconds);*/
         yield return new WaitForSeconds(0.1f);
         gameObject.SetActive(false);
     }
@@ -97,9 +94,9 @@ public class EnemyController : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            if (killed) { return; }
-            ;
-
+            if (killed) { 
+                return; 
+            };
 
             float playerBottom = col.bounds.min.y;
             float enemyTop = GetComponent<Collider2D>().bounds.max.y;
@@ -117,7 +114,6 @@ public class EnemyController : MonoBehaviour
                     return;
                 }
                 nextHitTime = Time.time + hitCooldown;
-
                 col.GetComponent<PlayerController>().Die();
             }
         }
@@ -131,16 +127,5 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("isDead", true); 
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
-    }
-
-    private void OnDrawGizmos()
-    {
-        float width = GetComponent<Collider2D>().bounds.size.x;
-        float topY = GetComponent<Collider2D>().bounds.max.y - heightMarginToDead;
-
-        Vector3 startPoint = new Vector3(transform.position.x - (width / 2), topY, transform.position.z);
-
-        Debug.DrawRay(startPoint, Vector3.right * width, Color.red);
-
     }
 }

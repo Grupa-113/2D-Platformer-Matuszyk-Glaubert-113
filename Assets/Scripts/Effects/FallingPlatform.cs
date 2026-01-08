@@ -11,7 +11,7 @@ public class FallingPlatform : MonoBehaviour
     private bool falling = false;
     [SerializeField] private Rigidbody2D rb;
 
-    [SerializeField] private float shakeDuration = 0.8f; // jak d³ugo siie trzesie przed spadnieciem
+    [SerializeField] private float shakeDuration = 0.8f; // jak d³ugo sie trzesie przed spadnieciem
     [SerializeField] private float shakeMagnitude = 0.01f;  
     [SerializeField] private float margin = 0.2f;
 
@@ -39,6 +39,7 @@ public class FallingPlatform : MonoBehaviour
     {
 
     }
+
     private IEnumerator ShakePlatform(float duration)
     {
         Vector3 startPos = transform.position;
@@ -52,7 +53,6 @@ public class FallingPlatform : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         transform.position = startPos;
     }
 
@@ -80,7 +80,6 @@ public class FallingPlatform : MonoBehaviour
         {
             Destroy(gameObject);
         }
-            
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -94,7 +93,6 @@ public class FallingPlatform : MonoBehaviour
             {
                 StartCoroutine(StartFalling());
             }
-            
         }
     }
 
@@ -112,7 +110,6 @@ public class FallingPlatform : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic;
 
-
         falling = false;
         col.enabled = true;
 
@@ -121,5 +118,4 @@ public class FallingPlatform : MonoBehaviour
             tilemapRenderer.enabled = true;
         }
     }
-
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class BearEnemy : EnemyController
 {
-
     [SerializeField] private float followSpeed = 6.0f;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float followRange = 8.0f;
@@ -33,7 +32,9 @@ public class BearEnemy : EnemyController
     // Update is called once per frame
     protected override void Update()
     {
-        if (killed) { return; }
+        if (killed) { 
+            return; 
+        }
 
         float distX = Mathf.Abs(player.position.x - transform.position.x);
 
@@ -75,19 +76,16 @@ public class BearEnemy : EnemyController
                 Moving();
             }
         }
-
     }
 
     protected override void moveRight()
     {
         rigidBody.linearVelocity = new Vector2(moveSpeed, rigidBody.linearVelocity.y);
-        // transform.Translate(moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
 
     protected override void moveLeft()
     {
         rigidBody.linearVelocity = new Vector2(-moveSpeed, rigidBody.linearVelocity.y);
-        //transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
     }
     bool SeePlayer()
     {
@@ -106,7 +104,6 @@ public class BearEnemy : EnemyController
 
     bool PlayerTooHigh()
     {
-
         Bounds bear = coll.bounds;
 
         Collider2D playerColl = player.GetComponent<Collider2D>();
@@ -117,7 +114,6 @@ public class BearEnemy : EnemyController
 
         float diff = playerFootY - bearTopY;
         float allowed = bear.size.y * 5.0f;
-
 
         return diff > allowed;
     }
@@ -130,7 +126,6 @@ public class BearEnemy : EnemyController
             if (!isFacingRight)
             {
                 Flip();
-
             }
             isMovingRight = true;
             moveRight();
@@ -140,17 +135,14 @@ public class BearEnemy : EnemyController
             if (isFacingRight)
             {
                 Flip();
-
             }
             isMovingRight = false;
             moveLeft();
         }
-
     }
 
     private bool isWall()
     {
-       
         Bounds bounds = coll.bounds;
         Vector2 direction;
 
@@ -219,10 +211,5 @@ public class BearEnemy : EnemyController
                 Flip();
             }
         }
-    }
-
-    protected override void Die()
-    {
-        base.Die();
     }
 }
