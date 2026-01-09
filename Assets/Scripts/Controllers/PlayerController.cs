@@ -278,8 +278,8 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("LevelExit")) { 
-            GameManager.instance.CheckLevelCompleted(); 
+        if (col.CompareTag("EndGame")) {
+            GameManager.instance.CheckLevelCompleted();
         }
 
         if (col.CompareTag("LevelFall")) { 
@@ -288,7 +288,7 @@ public class PlayerController : MonoBehaviour
 
         if (col.CompareTag("Bonus"))
         {
-            GameManager.instance.AddPoints(3);
+            GameManager.instance.AddPoints(1);
             col.gameObject.SetActive(false);
             source.PlayOneShot(coinSound, AudioListener.volume);
         }

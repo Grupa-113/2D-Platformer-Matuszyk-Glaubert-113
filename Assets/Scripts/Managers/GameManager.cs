@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
     public Image[] keysTab;
     const string keyHighScore = "HighScoreLevel1;";
     //--------------keys
-    [SerializeField] private AudioClip lvlCompletedSound;
-    [SerializeField] private AudioClip lvlNotCompletedSound;
+    public AudioClip lvlCompletedSound;
+    public AudioClip lvlNotCompletedSound;
     private AudioSource source;
 
     void Update()
@@ -190,12 +190,25 @@ public class GameManager : MonoBehaviour
         optionsCanvas.enabled = (currentGameState == GameState.GS_OPTIONS);
         pauseMenuCanvas.enabled = (currentGameState == GameState.PAUSE_MENU);
         GameOverCanvas.enabled = (currentGameState == GameState.GAMEOVER);
-        levelCompletedCanvas.enabled = (currentGameState == GameState.LEVEL_COMPLETED && keysFound == maxKeysNumber);
 
-        if(currentGameState == GameState.LEVEL_COMPLETED && levelCompletedCanvas.enabled == false)
+        if (currentGameState == GameState.LEVEL_COMPLETED)
         {
-            InGame();
+            if (keysFound >= maxKeysNumber)
+            {
+                levelCompletedCanvas.enabled = true;
+                UpdateLevelCompletedUI(); 
+            }
+            else
+            {
+                levelCompletedCanvas.enabled = false;
+                InGame();
+            }
         }
+        else
+        {
+            levelCompletedCanvas.enabled = false;
+        }
+
 
         if (optionsCanvas.enabled || pauseMenuCanvas.enabled || GameOverCanvas.enabled || levelCompletedCanvas.enabled)
         {
@@ -206,29 +219,39 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1.0f;
         }
 
-        //----levelCompleted
-        if (levelCompletedCanvas.enabled)
-        {
-
-            int highScore = 0;
-
-            
-                highScore = PlayerPrefs.GetInt(keyHighScore);
-                if (highScore < score)
-                {
-                    highScore = score;
-                    PlayerPrefs.SetInt(keyHighScore, highScore);
-                }
-            scoreComletedLabel.text = "Your score " + score.ToString();
-            highScoreLabel.text = "The best score " + highScore.ToString();
-
-
-        }
-
 
     }
 
 
+
+    private void UpdateLevelCompletedUI()
+    {
+        const int POINTS_PER_LIFE = 100;   
+        const int POINTS_PER_BONUS = 5;     
+        const int POINTS_PER_ENEMY = 100;  
+        const int TIME_PENALTY = 5;    
+
+        int calculatedScore = (livesNumber * POINTS_PER_LIFE)
+                            + (score * POINTS_PER_BONUS)
+                            + (enemyNumber * POINTS_PER_ENEMY)
+                            - (int)(timer * TIME_PENALTY);
+
+        if (calculatedScore < 0) calculatedScore = 0;
+
+
+
+        int highScore = PlayerPrefs.GetInt(keyHighScore);
+
+
+        if (highScore < calculatedScore)
+        {
+            highScore = calculatedScore;
+            PlayerPrefs.SetInt(keyHighScore, highScore);
+            PlayerPrefs.Save();
+        }
+        scoreComletedLabel.text = "Your score " + calculatedScore.ToString();
+        highScoreLabel.text = "The best score " + highScore.ToString();
+    }
 
 
 
@@ -308,13 +331,12 @@ public class GameManager : MonoBehaviour
     {
         if (keysFound >= maxKeysNumber)
         {
-            source.PlayOneShot(lvlCompletedSound, AudioListener.volume);
             LevelCompleted();
+            source.PlayOneShot(lvlCompletedSound, AudioListener.volume);
         }
         else
         {
             source.PlayOneShot(lvlNotCompletedSound, AudioListener.volume);
-            // zostaje w grze
         }
     }
 }

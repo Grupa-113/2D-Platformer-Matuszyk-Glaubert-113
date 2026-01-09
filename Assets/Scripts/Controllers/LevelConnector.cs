@@ -51,7 +51,9 @@ public class LevelConnector : MonoBehaviour
     public TMP_Text score_win;
     public TMP_Text highscore_win;
 
-
+    [Header("SOUNDS")]
+    public AudioClip lvlCompletedSound;
+    public AudioClip lvlNotCompletedSound;
     void Start()
     {
 
@@ -65,7 +67,7 @@ public class LevelConnector : MonoBehaviour
             bindOptionsUI(gm);
             bindGameOverUI(gm);
             bindWinUI(gm);
-
+            bindSounds(gm);
 
             gm.UpdateQualityLabel();
 
@@ -147,5 +149,11 @@ public class LevelConnector : MonoBehaviour
         bindButton(menuButton_win, gm.OnRetunrToMainMenuButtonClicked);
         gm.scoreComletedLabel = score_win;
         gm.highScoreLabel = highscore_win;
+    }
+
+    void bindSounds(GameManager gm)
+    {
+        gm.lvlCompletedSound = this.lvlCompletedSound;
+        gm.lvlNotCompletedSound = this.lvlNotCompletedSound;
     }
 }
