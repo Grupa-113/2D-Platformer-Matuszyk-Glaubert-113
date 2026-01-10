@@ -15,6 +15,7 @@ public class RatControlller : EnemyController
 
     [SerializeField] private float reachNestDistance = 0.001f;
     [SerializeField] private float cooldownSeconds = 20f;
+    private float yMargin = 1.0f;
 
     private enum State { InNest, Chasing, Returning, Cooldown }
     private State state = State.InNest;
@@ -58,16 +59,30 @@ public class RatControlller : EnemyController
                 break;
 
             case State.Chasing:
-                animator.SetBool("isRunning", true);
-                MoveToX(player.position.x);
-                break;
+                
+                if (SeePlayer())
+                {
+                    animator.SetBool("isRunning", true);
+                    MoveToX(player.position.x);
+                }
+                else
+                {
+                    state = State.Returning;
+                }
+
+                    break;
 
             case State.Returning:
                 MoveToX(startPositionX);
                 animator.SetBool("isRunning", true);
 
-                if (ReachedHome())
+                if(!stolen && SeePlayer())
                 {
+                    state = State.Chasing;
+                }else if (ReachedHome())
+                {
+                    stolen = false;
+             
                     StartCoroutine(CooldownRoutine());
                     animator.SetBool("isRunning", false);
                     Flip();
@@ -140,17 +155,27 @@ public class RatControlller : EnemyController
 
     private bool SeePlayer()
     {
-        Vector2 direction = (player.position.x >= transform.position.x) ? Vector2.right : Vector2.left;
-        float distance = Mathf.Abs(player.position.x - transform.position.x);
-
-        if (Physics2D.Raycast(coll.bounds.center, direction, distance, obstacleMask))
+        float y = Mathf.Abs(player.position.y - transform.position.y);
+        if (y > yMargin)
         {
             return false;
         }
 
-        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, direction, distance, playerMask);
+        Vector2 direction = (player.position.x >= transform.position.x) ? Vector2.right : Vector2.left;
+        float distanceToPlayer = Mathf.Abs(player.position.x - transform.position.x);
 
-        return hit.collider != null;
+        // czy sciana zanim trafi w gracza
+        RaycastHit2D hitObject = Physics2D.Raycast(coll.bounds.center, direction, distanceToPlayer, obstacleMask);
+
+        if (hitObject.collider != null)
+        {
+            return false;
+        }
+
+        // czy hit w gracza
+        RaycastHit2D hitPlayer = Physics2D.Raycast(coll.bounds.center, direction, distanceToPlayer, playerMask);
+
+        return hitPlayer.collider != null;
     }
 
     private void MoveToX(float targetX)

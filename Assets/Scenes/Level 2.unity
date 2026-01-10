@@ -60956,11 +60956,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.47
+      value: 15.28
       objectReference: {fileID: 0}
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: -1.59
       objectReference: {fileID: 0}
     - target: {fileID: 1076634162928850011, guid: d552c5df2d90ea842bca8ca0f0f4fbe4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -212070,6 +212070,10 @@ PrefabInstance:
       value: 1.68
       objectReference: {fileID: 0}
     - target: {fileID: 487970401733289845, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: followRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 487970401733289845, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: normalSpeed
       value: 1.5
       objectReference: {fileID: 0}
@@ -212085,13 +212089,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat
       objectReference: {fileID: 0}
+    - target: {fileID: 575333950550493723, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1546338760594365255, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.828
+      value: 7.366
       objectReference: {fileID: 0}
     - target: {fileID: 1546338760594365255, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.191
+      value: -3.19
       objectReference: {fileID: 0}
     - target: {fileID: 1546338760594365255, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -212125,8 +212133,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2912750376949602385, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4035096704668932068, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
       propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623756319980344630, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_Size.x
+      value: 0.2533322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623756319980344630, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.013466831
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623756319980344630, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.03541158
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623756319980344630, guid: c30d8c3b5e222e147a89b90f7e1e548b, type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
