@@ -76,7 +76,7 @@ public class LevelConnector : MonoBehaviour
         }
         else
         {
-            Debug.LogError("LevelConnector: Nie znaleziono GameManagera!");
+            Debug.LogError("LevelConnector: Nie znaleziono GameManagera");
         }
     }
 

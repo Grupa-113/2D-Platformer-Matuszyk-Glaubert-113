@@ -12,7 +12,7 @@ public class GeneratedPlatforms : MonoBehaviour
     [SerializeField] private float radius = 5.0f;
     private float currentAngle = 0;
     [SerializeField] private float speed = 1.0f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Awake()
     {
         platforms = new GameObject[PLATFORMS_NUM];

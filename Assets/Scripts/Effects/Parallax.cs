@@ -15,11 +15,16 @@ public class Parallax : MonoBehaviour
     void LateUpdate()
     {
         float dist = (cam.transform.position.x * parallaxEffect);
-
         transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
-
         float temp = (cam.transform.position.x * (1 - parallaxEffect));
-        if (temp > startPos + length) startPos += length;
-        else if (temp < startPos - length) startPos -= length;
+        
+        if (temp > startPos + length) 
+        {
+            startPos += length;
+        }
+        else if (temp < startPos - length) 
+        {
+            startPos -= length;
+        };
     }
 }

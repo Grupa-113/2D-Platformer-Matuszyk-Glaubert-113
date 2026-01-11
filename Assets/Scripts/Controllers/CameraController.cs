@@ -28,7 +28,6 @@ public class CameraController : MonoBehaviour
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            // U¿ywamy originalPosition.z, aby kamera nie "uciek³a" w g³¹b ekranu (2D)
             transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
             elapsed += Time.deltaTime;
 
