@@ -70,7 +70,7 @@ public class RatControlller : EnemyController
                     state = State.Returning;
                 }
 
-                    break;
+                break;
 
             case State.Returning:
                 MoveToX(startPositionX);
@@ -79,8 +79,8 @@ public class RatControlller : EnemyController
                 if(!stolen && SeePlayer())
                 {
                     state = State.Chasing;
-                }else if (ReachedHome())
-                {
+
+                }else if (ReachedHome()){
                     stolen = false;
              
                     StartCoroutine(CooldownRoutine());
