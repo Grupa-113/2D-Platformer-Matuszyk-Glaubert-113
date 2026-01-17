@@ -78,7 +78,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip gameOver;
     // skok,ladowanie,wallJump
     private AudioSource source;
-
+    public AudioClip lvlCompletedSound;
+    public AudioClip lvlNotCompletedSound;
     private void Awake()
     {
         startPosition = transform.position;
@@ -279,7 +280,15 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("EndGame")) {
-            GameManager.instance.CheckLevelCompleted();
+            
+            if (GameManager.instance.CheckLevelCompleted())
+            {
+                source.PlayOneShot(lvlCompletedSound, AudioListener.volume);
+            }
+            else
+            {
+                source.PlayOneShot(lvlNotCompletedSound, AudioListener.volume);
+            }
         }
 
         if (col.CompareTag("LevelFall")) { 

@@ -128,4 +128,14 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(KillOnAnimationEnd());
         GameManager.instance.AddenemiesKill(1);
     }
+    private void OnDrawGizmos()
+    {
+        float width = GetComponent<Collider2D>().bounds.size.x;
+        float topY = GetComponent<Collider2D>().bounds.max.y - heightMarginToDead;
+
+        Vector3 startPoint = new Vector3(transform.position.x - (width / 2), topY, transform.position.z);
+
+        Debug.DrawRay(startPoint, Vector3.right * width, Color.red);
+
+    }
 }
