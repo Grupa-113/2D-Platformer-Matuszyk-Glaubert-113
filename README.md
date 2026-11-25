@@ -77,12 +77,10 @@ Assets/
 
 ## 🎨 Assety zewnętrzne
 
-Część grafik, dźwięków i czcionek pochodzi z gotowych paczek. Prawa do nich należą do ich autorów:
+Grafiki w folderze `Assets/Nasza Grafika` oraz cały kod w `Assets/Scripts` zrobiliśmy sami. Pozostałe zasoby pochodzą od innych twórców, a prawa do nich należą do ich autorów:
 
-- **Sunny Land**: grafiki otoczenia, postaci, przeciwników i część muzyki
-- **2D Pixel Item Pack**: przedmioty (monety, serca, mikstury)
-- **Hints Stars Lite**: efekty dźwiękowe
-- **Monocraft**: czcionka (SIL Open Font License)
-- **TextMesh Pro**: Unity Technologies
+- **[SunnyLand](https://ansimuz.itch.io/)** autorstwa **ansimuz**: otoczenie, gracz i przeciwnicy (CC0 / darmowe)
+- **2D Pixel Item Pack** autorstwa Startled Pixels: animacja serduszka
+- **[Monocraft](https://github.com/IdreesInc/Monocraft)**: czcionka (SIL Open Font License)
 
-Grafiki w folderze `Assets/Nasza Grafika` oraz cały kod w `Assets/Scripts` zrobiliśmy sami.
+Pełna lista z licencjami jest w [CREDITS.md](CREDITS.md).
