@@ -19,8 +19,10 @@ Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 | Przeciwnicy | Ucieczka przed kolcami |
 |---|---|
 | ![Przeciwnicy](docs/enemies.webp) | ![Ucieczka przed kolcami](docs/spikes.webp) |
-| **Sekretny pokój** | **Piły** |
-| ![Sekretny pokój](docs/secret.webp) | ![Piły](docs/saws.webp) |
+| **Spadające pułapki** | **Piły** |
+| ![Spadające pułapki](docs/falling.webp) | ![Piły](docs/saws.webp) |
+| **Sekretny pokój** | **Gabryś czeka na ratunek** |
+| ![Sekretny pokój](docs/secret.webp) | ![Gabryś w klatce](docs/gabrys.webp) |
 
 **Dialogi z NPC**
 
