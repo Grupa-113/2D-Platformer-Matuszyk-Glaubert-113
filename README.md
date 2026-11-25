@@ -16,9 +16,17 @@ Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 
 <!-- Przeciągnij plik 113_github.mp4 tutaj w edytorze README na GitHubie, a GitHub wstawi link https://github.com/user-attachments/assets/... — wklej go w miejsce tego komentarza. -->
 
-| Przeciwnicy | Sekretny pokój | Piły |
-|---|---|---|
-| ![Przeciwnicy](docs/enemies.webp) | ![Sekretny pokój](docs/secret.webp) | ![Piły](docs/saws.webp) |
+| Przeciwnicy | Ucieczka przed kolcami |
+|---|---|
+| ![Przeciwnicy](docs/enemies.webp) | ![Ucieczka przed kolcami](docs/spikes.webp) |
+| **Sekretny pokój** | **Piły** |
+| ![Sekretny pokój](docs/secret.webp) | ![Piły](docs/saws.webp) |
+
+**Dialogi z NPC**
+
+<p align="center">
+  <img src="docs/dialogue.webp" alt="Dialog z Trenerem" width="720">
+</p>
 
 ## ✨ Co jest w grze
 
