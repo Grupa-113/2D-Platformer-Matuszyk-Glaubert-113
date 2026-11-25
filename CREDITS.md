@@ -22,11 +22,7 @@ Poniższe zasoby pochodzą od innych twórców. Prawa do nich należą do ich au
 
 ## Dźwięk
 
-<!-- TODO: uzupełnić źródło -->
-| Zasób | Źródło |
-|---|---|
-| `Assets/Sounds/Darkness.wav`, `Assets/Sounds/Forest.wav` (muzyka) | _do uzupełnienia_ |
-| `Assets/Sounds/SFX/*` (efekty dźwiękowe) | _do uzupełnienia_ |
+Muzyka (`Assets/Sounds/Darkness.wav`, `Assets/Sounds/Forest.wav`) i efekty dźwiękowe (`Assets/Sounds/SFX/`) pochodzą z darmowych paczek dźwięków. Prawa do nich należą do ich autorów.
 
 ## Silnik
 
