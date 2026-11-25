@@ -2,7 +2,11 @@
 
 > 🥉 **3. miejsce w uczelnianym konkursie na grę** — wszystkie zespoły z roku tworzyły własną platformówkę 2D.
 
-*Czy ktoś widział Gabrysia?* to platformówka 2D, w której lisek przechodzi leśny poziom pełen pułapek, przeciwników i ukrytych sekretów. Szuka kluczy, żeby uwolnić kota Gabrysia. Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
+*Czy ktoś widział Gabrysia?* to platformówka 2D, w której lisek przechodzi leśny poziom pełen pułapek, przeciwników i ukrytych sekretów. Szuka kluczy, żeby uwolnić kota Gabrysia.
+
+**Skąd nazwa?** Gabryś to kot, nieoficjalna maskotka Wydziału ETI, który na co dzień spaceruje po korytarzach wydziału. W grze zaginął i trzeba go odnaleźć. Gra ma też sporo innych nawiązań do życia na uczelni, które docenią studenci wydziału.
+
+Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 
 <!-- Tu wstaw zrzut ekranu albo GIF z gry, np.: ![Gameplay](docs/gameplay.gif) -->
 
@@ -21,7 +25,7 @@
 **Poziom i rozgrywka**
 - checkpointy, system żyć (serca), monety, klucze potrzebne do ukończenia poziomu
 - ruchome platformy (po waypointach) i platformy generowane
-- **ukryty, sekretny poziom**
+- **sekretne pokoje i ukryte miejsca** porozrzucane po poziomie oraz sekretny poziom dla najbardziej dociekliwych (nie zdradzamy, gdzie są 🤫)
 - NPC z **systemem dialogów** (efekt pisania, rozmowy wielowątkowe)
 - paralaksa tła, kamera podążająca za graczem
 
