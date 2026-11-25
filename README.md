@@ -8,7 +8,17 @@
 
 Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 
-<!-- Tu wstaw zrzut ekranu albo GIF z gry, np.: ![Gameplay](docs/gameplay.gif) -->
+<p align="center">
+  <img src="docs/gameplay.webp" alt="Gameplay: wall jump i wspinaczka" width="720">
+</p>
+
+## 🎬 Zwiastun
+
+<!-- Przeciągnij plik 113_github.mp4 tutaj w edytorze README na GitHubie, a GitHub wstawi link https://github.com/user-attachments/assets/... — wklej go w miejsce tego komentarza. -->
+
+| Przeciwnicy | Sekretny pokój | Piły |
+|---|---|---|
+| ![Przeciwnicy](docs/enemies.webp) | ![Sekretny pokój](docs/secret.webp) | ![Piły](docs/saws.webp) |
 
 ## ✨ Co jest w grze
 
