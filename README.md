@@ -68,7 +68,7 @@ Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 1. Zainstaluj **Unity 6000.0.38f1** (przez Unity Hub).
 2. Sklonuj repozytorium:
    ```bash
-   git clone https://github.com/xYuusi/2D-Platformer-Matuszyk-Glaubert-113.git
+   git clone https://github.com/Grupa-113/Czy-ktos-widzial-Gabrysia.git
    ```
 3. W Unity Hub kliknij **Add → Add project from disk** i wskaż folder repozytorium.
 4. Otwórz scenę `Assets/Scenes/MainMenu.unity` i wciśnij **Play**.
