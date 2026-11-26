@@ -14,7 +14,7 @@ Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 
 ## 🎬 Zwiastun
 
-<!-- Przeciągnij plik 113_github.mp4 tutaj w edytorze README na GitHubie, a GitHub wstawi link https://github.com/user-attachments/assets/... — wklej go w miejsce tego komentarza. -->
+https://github.com/user-attachments/assets/cf0fef39-fd9d-4ef7-abcb-5076079ffe32
 
 | Przeciwnicy | Ucieczka przed kolcami |
 |---|---|
