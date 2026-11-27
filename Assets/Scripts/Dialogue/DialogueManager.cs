@@ -147,7 +147,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        source.Stop();
-        isTyping = false; 
+        // Bez source.Stop(): ucięcie bipa w połowie fali daje trzask, a bip sam wygasa po 80 ms.
+        isTyping = false;
     }
 }
