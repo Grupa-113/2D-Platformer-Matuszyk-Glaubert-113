@@ -135,16 +135,15 @@ public class DialogueManager : MonoBehaviour
         isTyping = true;
         textDisplay.text = "";
 
-        // Bez zapętlania: w buildzie Web dźwięki są kodowane do AAC,
-        // który dodaje ciszę na końcach klipu, więc pętla krótkiego klipu trzeszczy.
-        source.clip = speakingSound;
-        source.loop = false;
+        // Jeden krótki "bip" co dwie litery zamiast zapętlonego klipu:
+        // w buildzie Web dźwięk jest kodowany do AAC, który psuje pętle i restarty klipu.
+        int letterCount = 0;
 
         foreach (char letter in sentence.ToCharArray())
         {
             textDisplay.text += letter;
-            if (!char.IsWhiteSpace(letter) && !source.isPlaying)
-                source.Play();
+            if (!char.IsWhiteSpace(letter) && letterCount++ % 2 == 0)
+                source.PlayOneShot(speakingSound);
             yield return new WaitForSeconds(typingSpeed);
         }
 
