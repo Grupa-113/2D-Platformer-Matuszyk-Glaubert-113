@@ -1,6 +1,6 @@
-# 🦊 Czy ktoś widział Gabrysia? — platformówka 2D w Unity
+# 🦊 Czy ktoś widział Gabrysia? Platformówka 2D w Unity
 
-> 🥉 **3. miejsce w uczelnianym konkursie na grę** — wszystkie zespoły z roku tworzyły własną platformówkę 2D.
+> 🥉 **3. miejsce w uczelnianym konkursie na grę** Wszystkie zespoły z roku tworzyły własną platformówkę 2D.
 
 *Czy ktoś widział Gabrysia?* to platformówka 2D, w której lisek przechodzi leśny poziom pełen pułapek, przeciwników i ukrytych sekretów. Szuka kluczy, żeby uwolnić kota Gabrysia.
 
