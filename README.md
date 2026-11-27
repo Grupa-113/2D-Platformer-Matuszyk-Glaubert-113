@@ -8,6 +8,8 @@
 
 Projekt zrobiony w dwuosobowym zespole w **Unity 6 (C#, URP 2D)**.
 
+### 🎮 [Zagraj w przeglądarce na itch.io](https://boc7777.itch.io/czy-kto-widzia-gabrysia)
+
 <p align="center">
   <img src="docs/gameplay.webp" alt="Gameplay: wall jump i wspinaczka" width="720">
 </p>
@@ -64,6 +66,10 @@ https://github.com/user-attachments/assets/cf0fef39-fd9d-4ef7-abcb-5076079ffe32
 | Pauza | `Esc` |
 
 ## 🚀 Uruchomienie
+
+Najszybciej: [zagraj w przeglądarce na itch.io](https://boc7777.itch.io/czy-kto-widzia-gabrysia), bez instalowania czegokolwiek.
+
+Żeby otworzyć projekt w Unity:
 
 1. Zainstaluj **Unity 6000.0.38f1** (przez Unity Hub).
 2. Sklonuj repozytorium:
